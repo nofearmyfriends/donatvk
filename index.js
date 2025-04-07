@@ -1,35 +1,19 @@
 // Дожидаемся загрузки DOM перед инициализацией
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM loaded');
-  
-  // Проверяем наличие VK Bridge
-  if (typeof window.vkBridge === 'undefined') {
-    console.error('VK Bridge not found. Loading from CDN...');
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js';
-    script.onload = initVKMiniApp;
-    script.onerror = () => console.error('Failed to load VK Bridge');
-    document.head.appendChild(script);
+  // Инициализация VK Mini Apps
+  if (window.vkBridge) {
+    vkBridge.send('VKWebAppInit', {})
+      .then(() => {
+        console.log('VK Bridge initialized');
+        initializeApp(); // Инициализируем приложение после успешной инициализации VK Bridge
+      })
+      .catch(error => {
+        console.error('VK Bridge initialization failed:', error);
+      });
   } else {
-    console.log('VK Bridge found');
-    initVKMiniApp();
+    console.error('VK Bridge not found');
   }
 });
-
-// Функция инициализации VK Mini App
-function initVKMiniApp() {
-  console.log('Initializing VK Mini App...');
-  
-  // Инициализация VK Mini Apps
-  window.vkBridge.send('VKWebAppInit')
-    .then(() => {
-      console.log('VK Bridge initialized successfully');
-      initializeApp(); // Инициализируем приложение после успешной инициализации VK Bridge
-    })
-    .catch(error => {
-      console.error('VK Bridge initialization failed:', error);
-    });
-}
 
 // Константы
 const GOAL_AMOUNT = 5000;
