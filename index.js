@@ -117,9 +117,8 @@ function initializeApp() {
         
         // Добавляем донатера в список
         donors.push(donor);
-        vkBrisdsdfsfd
 
-        
+      
         // Обновляем прогресс
         updateProgress();
         
