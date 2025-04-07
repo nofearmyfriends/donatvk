@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Донат для автора</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover">
+  <base href="https://nofearmyfriends.github.io/donatvk/">
+  <!-- Подключаем стили -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Подключаем VK Bridge -->
+  <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="main-content">
+      <div id="root">
+        <h1 class="page-title">Поддержка проекта</h1>
+        <p class="page-description">Ваша поддержка помогает создавать новые проекты и улучшать существующие. Спасибо за ваш вклад!</p>
+        
+        <div class="goal-container">
+          <div class="goal-info">
+            <div class="goal-label">Цель:</div>
+            <div class="goal-amount">5 000 ₽</div>
+          </div>
+          <div class="goal-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text">
+              <span id="currentAmount">0</span> ₽ из <span id="goalAmount">5 000</span> ₽
+            </div>
+          </div>
+        </div>
+        
+        <button id="donateButton" class="donate-button">💖 Поддержать проект</button>
+        
+        <div id="modal" class="modal" style="display: none;">
+          <div class="modal-content">
+            <h2 class="modal-header">Поддержать автора</h2>
+            <p class="modal-subheader">Любая сумма мотивирует на новые проекты!</p>
+            
+            <div class="form-group">
+              <label for="amount">Сумма доната (руб)</label>
+              <input type="number" id="amount" class="amount-input" value="100" min="100">
+              <div class="input-hint">Минимальная сумма доната: 100 ₽</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="name">Ваше имя (необязательно)</label>
+              <input type="text" id="name" class="amount-input" placeholder="Аноним">
+            </div>
+            
+            <div class="modal-actions">
+              <button id="sendButton" class="action-button primary">Отправить</button>
+              <button id="cancelButton" class="action-button secondary">Отмена</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Модальное окно для отображения ссылки на Telegram после успешного доната -->
+        <div id="successModal" class="modal" style="display: none;">
+          <div class="modal-content success-modal">
+            <h2 class="modal-header">Спасибо за поддержку!</h2>
+            <p class="modal-subheader">Ваш донат успешно обработан</p>
+            
+            <div class="success-icon">💖</div>
+            
+            <div class="telegram-section">
+              <h3 class="telegram-title">Присоединяйтесь к нашему Telegram-каналу</h3>
+              <p class="telegram-description">Получите доступ к эксклюзивному контенту и обновлениям</p>
+              
+              <a href="https://t.me/secret_room_channel" target="_blank" class="telegram-button">
+                <span class="telegram-icon">📱</span>
+                Перейти в Telegram
+              </a>
+            </div>
+            
+            <div class="modal-actions">
+              <button id="closeSuccessButton" class="action-button primary">Закрыть</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="donors-wall">
+      <h2 class="donors-title">Стена донатеров</h2>
+      <div class="donors-list" id="donorsList">
+        <!-- Здесь будут отображаться донатеры -->
+        <div class="donor-item">
+          <div class="donor-avatar">А</div>
+          <div class="donor-info">
+            <div class="donor-name">Аноним</div>
+            <div class="donor-amount">100 ₽</div>
+          </div>
+        </div>
+        <div class="donor-item">
+          <div class="donor-avatar">И</div>
+          <div class="donor-info">
+            <div class="donor-name">Иван</div>
+            <div class="donor-amount">500 ₽</div>
+          </div>
+        </div>
+        <div class="donor-item">
+          <div class="donor-avatar">М</div>
+          <div class="donor-info">
+            <div class="donor-name">Мария</div>
+            <div class="donor-amount">200 ₽</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Подключаем основной скрипт -->
+  <script src="index.js"></script>
+</body>
+</html>
