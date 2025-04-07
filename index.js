@@ -5,7 +5,19 @@ document.addEventListener('DOMContentLoaded', function() {
     vkBridge.send('VKWebAppInit', {})
       .then(() => {
         console.log('VK Bridge initialized');
-        initializeApp(); // Инициализируем приложение после успешной инициализации VK Bridge
+        // Получаем информацию о владельце приложения
+        return vkBridge.send('VKWebAppGetLaunchParams');
+      })
+      .then(launchParams => {
+        console.log('Launch params:', launchParams);
+        window.appOwnerId = launchParams.vk_user_id; // Сохраняем ID владельца
+        // Получаем информацию о текущем пользователе
+        return vkBridge.send('VKWebAppGetUserInfo');
+      })
+      .then(data => {
+        console.log('User data:', data);
+        window.vkUserData = data; // Сохраняем данные пользователя
+        initializeApp(); // Инициализируем приложение после получения данных
       })
       .catch(error => {
         console.error('VK Bridge initialization failed:', error);
@@ -95,10 +107,11 @@ function initializeApp() {
   function openVKPay(amount, name) {
     vkBridge.send('VKWebAppOpenPayForm', {
       app_id: 53377411,
-      action: 'pay-to-service',
+      action: 'pay-to-user',
       params: {
         amount: amount,
         description: `Донат от ${name || 'Анонима'}`,
+        user_id: window.appOwnerId, // Используем ID владельца приложения
         data: JSON.stringify({
           donor_name: name || 'Аноним',
           donation_amount: amount
@@ -117,8 +130,7 @@ function initializeApp() {
         
         // Добавляем донатера в список
         donors.push(donor);
-
-      
+        
         // Обновляем прогресс
         updateProgress();
         
