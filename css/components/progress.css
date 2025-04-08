@@ -1,0 +1,42 @@
+/* Цель и прогресс */
+.goal-container {
+  margin-bottom: 24px;
+}
+
+.goal-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.goal-label {
+  font-size: 14px;
+  color: var(--vkui--color_text_primary);
+}
+
+.goal-amount {
+  font-size: 14px;
+  color: var(--vkui--color_text_primary);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #E5EBF1;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--vkui--color_accent_blue);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 13px;
+  color: var(--vkui--color_text_secondary);
+  text-align: right;
+} 

@@ -1,0 +1,52 @@
+/* Стена донатеров */
+.donors-wall {
+  background: var(--vkui--color_background_content);
+  border-radius: var(--vkui--size_border_radius--regular);
+  padding: 16px;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: start;
+}
+
+.donors-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--vkui--color_text_primary);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #E7E8EC;
+}
+
+.donors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.donor-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #F5F5F5;
+  border-radius: var(--vkui--size_border_radius--regular);
+  transition: background-color 0.2s;
+}
+
+.donor-item:hover {
+  background: #EFEFEF;
+}
+
+.donor-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vkui--color_text_primary);
+  margin-bottom: 4px;
+}
+
+.donor-amount {
+  font-size: 13px;
+  color: var(--vkui--color_text_secondary);
+} 

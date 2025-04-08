@@ -271,7 +271,8 @@ function initializeApp() {
   });
 
   // Инициализируем начальное состояние
-  updateProgress();
+  currentAmount = donors.reduce((sum, donor) => sum + donor.amount, 0);
+  updateProgress(0); // Передаем 0, так как мы уже обновили currentAmount
   renderDonors(donors);
 }
 
