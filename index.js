@@ -56,11 +56,9 @@ const GOAL_AMOUNT = 5000;
 // Элементы DOM и основная логика будут инициализированы здесь
 function initializeApp() {
   // Элементы DOM
-  const donateButton = document.getElementById('donateButton');
   const modal = document.getElementById('modal');
   const successModal = document.getElementById('successModal');
   const amountInput = document.getElementById('amount');
-  const nameInput = document.getElementById('name');
   const sendButton = document.getElementById('sendButton');
   const cancelButton = document.getElementById('cancelButton');
   const closeSuccessButton = document.getElementById('closeSuccessButton');
@@ -182,10 +180,6 @@ function initializeApp() {
   }
 
   // Обработчики событий
-  donateButton.addEventListener('click', () => {
-    modal.style.display = 'flex';
-  });
-
   cancelButton.addEventListener('click', () => {
     modal.style.display = 'none';
   });
@@ -207,18 +201,19 @@ function initializeApp() {
     }
   });
 
-  // Удаляем проверку минимальной суммы при вводе
-  amountInput.addEventListener('input', () => {
-    // Оставляем поле пустым или удаляем обработчик
-  });
-
   // Обновляем обработку отправки формы без проверки минимальной суммы
   sendButton.addEventListener('click', () => {
     const amount = parseInt(amountInput.value);
-    const name = nameInput.value.trim() || 'Аноним';
+    const name = window.vkUserData ? window.vkUserData.first_name : 'Аноним';
+    
+    // Закрываем модальное окно перед отправкой
+    modal.style.display = 'none';
     
     // Открываем окно оплаты через VK Pay
     openVKPay(amount, name);
+    
+    // Сбрасываем значение поля ввода
+    amountInput.value = '';
   });
 
   // Подписываемся на события VK Bridge
@@ -230,42 +225,8 @@ function initializeApp() {
     }
   });
 
-  // Обработчик отправки формы
-  const donateForm = document.getElementById('donateForm');
-  donateForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const amount = parseInt(amountInput.value);
-    const name = window.vkUserData ? window.vkUserData.first_name : 'Аноним';
-    
-    // Закрываем модальное окно
-    modal.style.display = 'none';
-    
-    // Открываем VK Pay с введенной суммой
-    openVKPay(amount, name);
-    
-    // Сбрасываем значение поля ввода
-    amountInput.value = '';
-  });
-
   // Инициализируем начальное состояние
   currentAmount = donaters.reduce((sum, donater) => sum + donater.amount, 0);
   updateProgress(0); // Передаем 0, так как мы уже обновили currentAmount
   renderDonaters(donaters);
-}
-
-function updateDonatersList(donaters) {
-  const donatersList = document.querySelector('.donaters-list');
-  donatersList.innerHTML = '';
-  
-  donaters.forEach(donater => {
-    const donaterItem = document.createElement('div');
-    donaterItem.className = 'donater-item';
-    donaterItem.innerHTML = `
-      <div class="donater-info">
-        <div class="donater-name">${donater.name}</div>
-        <div class="donater-amount">${formatAmount(donater.amount)} ₽</div>
-      </div>
-    `;
-    donatersList.appendChild(donaterItem);
-  });
 } 

@@ -74,16 +74,6 @@ body {
   position: relative;
 }
 
-/* Закомментируем этот блок для проверки */
-/* .page-title::after {
-  content: '✨';
-  position: absolute;
-  right: -30px; 
-  top: 0;
-  font-size: 24px;
-  animation: sparkle 2s infinite;
-} */
-
 .page-description {
   color: var(--secondary-text);
   line-height: 1.6;
@@ -253,29 +243,6 @@ body {
   }
 }
 
-@keyframes sparkle {
-  0%, 100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2) rotate(15deg);
-    opacity: 0.8;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(142, 84, 233, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(142, 84, 233, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(142, 84, 233, 0);
-  }
-}
-
 /* Адаптивность */
 @media (max-width: 768px) {
   .container {
@@ -299,18 +266,6 @@ body {
     grid-row: auto;
     margin-top: 16px;
   }
-
-  .donaters-list {
-    /* Удаляем эти строки */
-    /* max-height: 500px; */
-    /* overflow-y: auto; */
-    /* padding-right: 10px; */
-  }
-
-  /* Удаляем весь этот блок */
-  /* .donaters-list::-webkit-scrollbar { ... } */
-  /* .donaters-list::-webkit-scrollbar-track { ... } */
-  /* .donaters-list::-webkit-scrollbar-thumb { ... } */
 }
 
 @media (max-width: 480px) {
