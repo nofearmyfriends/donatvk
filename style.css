@@ -1,507 +1,224 @@
-/* Общие стили */
+/* Базовые стили */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #EDEEF0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
-    box-sizing: border-box;
-    color: #2a5885;
+  background: #EDEEF0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #FFFFFF;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 0 16px;
+}
+
+/* Заголовок и описание */
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000000;
+  margin: 16px 0;
+  text-align: center;
+}
+
+.page-description {
+  font-size: 14px;
+  color: #818C99;
+  text-align: center;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+/* Цель и прогресс */
+.goal-container {
+  margin-bottom: 24px;
+}
+
+.goal-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.goal-label {
+  font-size: 14px;
+  color: #000000;
+}
+
+.goal-amount {
+  font-size: 14px;
+  color: #000000;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #E5EBF1;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #3F8AE0;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 13px;
+  color: #818C99;
+  text-align: right;
+}
+
+/* Кнопки доната */
+.donate-buttons {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0;
+  justify-content: center;
+}
+
+.donate-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #F2F3F5;
+  color: #000000;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.donate-button:hover {
+  background: #E5E7EB;
+}
+
+/* Основная кнопка поддержки */
+.support-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 16px;
+  background: #4986CC;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin: 12px 0;
+}
+
+.support-button:hover {
+  background: #447AB2;
+}
+
+/* Стена донатеров */
+.donors-wall {
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.donors-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #E7E8EC;
+}
+
+.donors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.donor-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background: #F9F9F9;
+  border-radius: 8px;
+}
+
+.donor-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #5181B8;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  margin-right: 12px;
+  font-size: 15px;
+}
+
+.donor-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2A5885;
+  margin-bottom: 2px;
+}
+
+.donor-amount {
+  font-size: 13px;
+  color: #818C99;
+}
+
+/* Адаптивность */
+@media (min-width: 961px) {
+  body {
+    padding: 0;
   }
   
   .container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
+    border-radius: 0;
+    box-shadow: none;
   }
-  
-  .main-content {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 960px) {
+  .container {
+    padding: 16px;
   }
-  
-  #root {
-    width: 100%;
-    padding: 30px;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-  }
-  
-  /* Заголовок и описание */
-  .page-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #000000;
-    margin-bottom: 12px;
-    text-align: center;
-  }
-  
-  .page-description {
-    font-size: 14px;
-    color: #818C99;
-    text-align: center;
-    margin-bottom: 24px;
-    line-height: 1.4;
-  }
-  
-  /* Цель и прогресс */
-  .goal-container {
-    margin-bottom: 24px;
-  }
-  
-  .goal-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  
-  .goal-label {
-    font-size: 14px;
-    font-weight: 400;
-    color: #000000;
-  }
-  
-  .goal-amount {
-    font-size: 14px;
-    font-weight: 400;
-    color: #000000;
-  }
-  
-  .progress-bar {
-    width: 100%;
-    height: 4px;
-    background: #E5EBF1;
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 8px;
-  }
-  
-  .progress-fill {
-    height: 100%;
-    background: #3F8AE0;
-    transition: width 0.3s ease;
-  }
-  
-  /* Стили для кнопок доната */
+}
+
+@media (max-width: 480px) {
   .donate-buttons {
-    display: flex;
-    gap: 8px;
-    margin: 20px 0;
-    justify-content: center;
+    flex-wrap: wrap;
   }
   
-  /* Стили для кнопок с фиксированными суммами */
   .donate-button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 8px;
-    background: #E5EBF1;
-    color: #000000;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    flex: 1;
+    min-width: calc(50% - 4px);
   }
-  
-  .donate-button:hover {
-    background: #DAE2EA;
-  }
-  
-  /* Кнопка "Своя сумма" */
-  .donate-button[data-amount="custom"] {
-    background: #E5EBF1;
-    color: #000000;
-  }
-  
-  /* Основная кнопка поддержки */
-  #donateButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 12px 16px;
-    background: #4986CC;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    margin: 20px 0;
-    transition: background-color 0.2s;
-  }
-  
-  #donateButton:hover {
-    background: #447AB2;
-  }
-  
-  /* Модальное окно */
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
-  }
-  
-  .modal-content {
-    background-color: white;
-    border-radius: 12px;
-    padding: 30px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    animation: modalAppear 0.3s ease-out;
-  }
-  
-  @keyframes modalAppear {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .modal-header {
-    font-size: 20px;
-    font-weight: 700;
-    color: #2a5885;
-    margin-top: 0;
-    margin-bottom: 8px;
-    text-align: center;
-  }
-  
-  .modal-subheader {
-    color: #656565;
-    font-size: 14px;
-    margin-bottom: 25px;
-    text-align: center;
-  }
-  
-  /* Форма */
-  .form-group {
-    margin-bottom: 25px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 10px;
-    color: #2a5885;
-    font-weight: 500;
-  }
-  
-  .amount-input {
-    border: 2px solid #e1e3e6;
-    border-radius: 8px;
-    padding: 12px 15px;
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
-  }
-  
-  .amount-input:focus {
-    border-color: #5181b8;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(81, 129, 184, 0.1);
-  }
-  
-  .input-hint {
-    font-size: 12px;
-    color: #656565;
-    margin-top: 5px;
-    font-style: italic;
-  }
-  
-  /* Кнопки действий */
-  .modal-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  
-  .action-button {
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    font-size: 14px;
-    transition: all 0.2s;
-  }
-  
-  .action-button.primary {
-    background: #5181b8;
-    color: white;
-    box-shadow: 0 2px 5px rgba(81, 129, 184, 0.3);
-  }
-  
-  .action-button.secondary {
-    background-color: #f0f0f0;
-    color: #2a5885;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .action-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  }
-  
-  .action-button.primary:hover {
-    box-shadow: 0 4px 10px rgba(81, 129, 184, 0.4);
-  }
-  
-  /* Модальное окно успешного доната */
-  .success-modal {
-    text-align: center;
-    padding: 30px;
-  }
-  
-  .success-icon {
-    font-size: 48px;
-    margin: 20px 0;
-    animation: pulse 1.5s infinite;
-  }
-  
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-  
-  .telegram-section {
-    margin: 20px 0;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-  }
-  
-  .telegram-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #2a5885;
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-  
-  .telegram-description {
-    font-size: 14px;
-    color: #656565;
-    margin-bottom: 20px;
-  }
-  
-  .telegram-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #0088cc;
-    color: white;
-    font-weight: 600;
-    padding: 12px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: all 0.2s;
-    box-shadow: 0 2px 5px rgba(0, 136, 204, 0.3);
-  }
-  
-  .telegram-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 136, 204, 0.4);
-  }
-  
-  .telegram-icon {
-    margin-right: 8px;
-    font-size: 18px;
-  }
-  
-  /* Стена донатеров */
-  .donors-wall {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .donors-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #000000;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #E7E8EC;
-  }
-  
-  .donors-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .donor-item {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    background: white;
-    border-radius: 8px;
-  }
-  
-  .donor-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: #5181B8;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 500;
-    margin-right: 12px;
-    font-size: 15px;
-  }
-  
-  .donor-name {
-    font-size: 14px;
-    font-weight: 500;
-    color: #2A5885;
-    margin-bottom: 2px;
-  }
-  
-  .donor-amount {
-    font-size: 13px;
-    color: #818C99;
-  }
-  
-  /* Адаптивность для мобильных устройств */
-  @media (max-width: 768px) {
-    .container {
-      padding: 0;
-    }
-    
-    .main-content {
-      max-width: 100%;
-    }
-    
-    #root, .donors-wall {
-      padding: 20px;
-    }
-    
-    .page-title {
-      font-size: 22px;
-    }
-    
-    .page-description {
-      font-size: 14px;
-    }
-    
-    .donate-button {
-      padding: 6px 12px;
-      font-size: 13px;
-    }
-    
-    .donate-icon {
-      font-size: 1em;
-    }
-    
-    .modal-content {
-      padding: 20px;
-    }
-    
-    .donors-wall {
-      width: 100%;
-      position: static;
-    }
-    
-    .donors-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
-    
-    .donor-item {
-      padding: 10px;
-    }
-    
-    .donor-avatar {
-      width: 32px;
-      height: 32px;
-      font-size: 14px;
-    }
-    
-    .donor-name {
-      font-size: 14px;
-    }
-    
-    .donor-amount {
-      font-size: 12px;
-    }
-    
-    .success-icon {
-      font-size: 36px;
-    }
-    
-    .telegram-title {
-      font-size: 16px;
-    }
-    
-    .telegram-description {
-      font-size: 12px;
-    }
-    
-    .telegram-button {
-      padding: 10px 16px;
-      font-size: 14px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .donors-list {
-      grid-template-columns: 1fr;
-    }
-    
-    .modal-actions {
-      flex-direction: column;
-      gap: 10px;
-    }
-    
-    .action-button {
-      width: 100%;
-    }
-    
-    .donate-buttons {
-      flex-wrap: wrap;
-    }
-    
-    .donate-button {
-      flex: 1;
-      min-width: calc(50% - 4px);
-    }
-  }
+}
