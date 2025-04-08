@@ -64,15 +64,13 @@ function initializeApp() {
   const sendButton = document.getElementById('sendButton');
   const cancelButton = document.getElementById('cancelButton');
   const closeSuccessButton = document.getElementById('closeSuccessButton');
-  const donorsList = document.getElementById('donorsList');
+  const donatersList = document.getElementById('donatersList');
   const progressFill = document.getElementById('progressFill');
   const currentAmountElement = document.getElementById('currentAmount');
 
   // Массив донатеров (в реальном приложении будет загружаться с сервера)
-  let donors = [
-    { name: 'Аноним', amount: 100 },
-    { name: 'Иван', amount: 500 },
-    { name: 'Мария', amount: 200 }
+  let donaters = [
+    { name: 'Аноним', amount: 800 }
   ];
 
   // Текущая сумма донатов
@@ -92,57 +90,57 @@ function initializeApp() {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
 
-  function initializeDonorsList() {
-    const donorsContainer = document.getElementById('donorsList');
-    const donors = donorsContainer.children;
+  function initializeDonatersList() {
+    const donatersContainer = document.getElementById('donatersList');
+    const donaters = donatersContainer.children;
     
     // Если донатеров больше 4, включаем автопрокрутку
-    if (donors.length > 4) {
+    if (donaters.length > 4) {
       // Клонируем элементы для бесконечной прокрутки
-      Array.from(donors).forEach(donor => {
-        const clone = donor.cloneNode(true);
-        donorsContainer.appendChild(clone);
+      Array.from(donaters).forEach(donater => {
+        const clone = donater.cloneNode(true);
+        donatersContainer.appendChild(clone);
       });
       
       // Устанавливаем количество донатеров для анимации
-      donorsContainer.style.setProperty('--donor-count', donors.length);
-      donorsContainer.classList.add('animated');
+      donatersContainer.style.setProperty('--donater-count', donaters.length);
+      donatersContainer.classList.add('animated');
     }
   }
 
   // Функция для отображения донатеров
-  function renderDonors(donorsList) {
-    const donorsContainer = document.getElementById('donorsList');
-    donorsContainer.innerHTML = '';
+  function renderDonaters(donatersList) {
+    const donatersContainer = document.getElementById('donatersList');
+    donatersContainer.innerHTML = '';
     
-    donorsList.forEach(donor => {
-      const donorItem = document.createElement('div');
-      donorItem.className = 'donor-item';
+    donatersList.forEach(donater => {
+      const donaterItem = document.createElement('div');
+      donaterItem.className = 'donater-item';
       
       const avatar = document.createElement('div');
-      avatar.className = 'donor-avatar';
-      avatar.textContent = donor.name.charAt(0).toUpperCase();
+      avatar.className = 'donater-avatar';
+      avatar.textContent = donater.name.charAt(0).toUpperCase();
       
       const info = document.createElement('div');
-      info.className = 'donor-info';
+      info.className = 'donater-info';
       
       const name = document.createElement('div');
-      name.className = 'donor-name';
-      name.textContent = donor.name;
+      name.className = 'donater-name';
+      name.textContent = donater.name;
       
       const amount = document.createElement('div');
-      amount.className = 'donor-amount';
-      amount.textContent = `${donor.amount} ₽`;
+      amount.className = 'donater-amount';
+      amount.textContent = `${donater.amount} ₽`;
       
       info.appendChild(name);
       info.appendChild(amount);
-      donorItem.appendChild(avatar);
-      donorItem.appendChild(info);
-      donorsContainer.appendChild(donorItem);
+      donaterItem.appendChild(avatar);
+      donaterItem.appendChild(info);
+      donatersContainer.appendChild(donaterItem);
     });
     
     // Инициализируем автопрокрутку после обновления списка
-    initializeDonorsList();
+    initializeDonatersList();
   }
 
   // Обработчики для кнопок доната (перемещаем в начало для уверенности в инициализации)
@@ -194,8 +192,8 @@ function initializeApp() {
           successModal.style.display = 'flex';
           // Обновляем список донатеров и прогресс
           updateProgress(amount);
-          donors = [{ name: name, amount: amount }, ...donors];
-          renderDonors(donors);
+          donaters = [{ name: name, amount: amount }, ...donaters];
+          renderDonaters(donaters);
         }
       })
       .catch(error => {
@@ -271,33 +269,33 @@ function initializeApp() {
   });
 
   // Инициализируем начальное состояние
-  currentAmount = donors.reduce((sum, donor) => sum + donor.amount, 0);
+  currentAmount = donaters.reduce((sum, donater) => sum + donater.amount, 0);
   updateProgress(0); // Передаем 0, так как мы уже обновили currentAmount
-  renderDonors(donors);
+  renderDonaters(donaters);
 }
 
-function updateDonorsList(donors) {
-  const donorsList = document.querySelector('.donors-list');
-  donorsList.innerHTML = '';
+function updateDonatersList(donaters) {
+  const donatersList = document.querySelector('.donaters-list');
+  donatersList.innerHTML = '';
   
   // Создаем элементы для каждого донатера
-  donors.forEach(donor => {
-    const donorItem = document.createElement('div');
-    donorItem.className = 'donor-item';
-    donorItem.innerHTML = `
-      <div>
-        <div class="donor-name">${donor.name}</div>
-        <div class="donor-amount">${formatAmount(donor.amount)} ₽</div>
+  donaters.forEach(donater => {
+    const donaterItem = document.createElement('div');
+    donaterItem.className = 'donater-item';
+    donaterItem.innerHTML = `
+      <div class="donater-info">
+        <div class="donater-name">${donater.name}</div>
+        <div class="donater-amount">${formatAmount(donater.amount)} ₽</div>
       </div>
     `;
-    donorsList.appendChild(donorItem);
+    donatersList.appendChild(donaterItem);
   });
 
   // Добавляем класс для анимации, если донатеров больше 3
-  if (donors.length > 3) {
-    donorsList.classList.add('animated');
-    document.documentElement.style.setProperty('--donor-count', donors.length);
+  if (donaters.length > 3) {
+    donatersList.classList.add('animated');
+    document.documentElement.style.setProperty('--donater-count', donaters.length);
   } else {
-    donorsList.classList.remove('animated');
+    donatersList.classList.remove('animated');
   }
 } 
