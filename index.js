@@ -1,29 +1,38 @@
 // Дожидаемся загрузки DOM перед инициализацией
 document.addEventListener('DOMContentLoaded', function() {
+  // Определяем, запущено ли приложение в мобильном клиенте или на десктопе
+  const isMobile = window.innerWidth <= 768;
+  
   // Инициализация VK Mini Apps
   if (window.vkBridge) {
+    // Инициализируем VK Bridge
     vkBridge.send('VKWebAppInit', {})
       .then(() => {
         console.log('VK Bridge initialized');
-        // Получаем информацию о владельце приложения
         return vkBridge.send('VKWebAppGetLaunchParams');
       })
       .then(launchParams => {
         console.log('Launch params:', launchParams);
-        window.appOwnerId = launchParams.vk_user_id; // Сохраняем ID владельца
-        // Получаем информацию о текущем пользователе
+        // Сохраняем ID владельца из параметров запуска или используем фиксированный ID
+        window.appOwnerId = launchParams.vk_user_id || '789311728';
         return vkBridge.send('VKWebAppGetUserInfo');
       })
       .then(data => {
         console.log('User data:', data);
-        window.vkUserData = data; // Сохраняем данные пользователя
-        initializeApp(); // Инициализируем приложение после получения данных
+        window.vkUserData = data;
+        initializeApp();
       })
       .catch(error => {
         console.error('VK Bridge initialization failed:', error);
+        // В случае ошибки всё равно инициализируем приложение
+        window.appOwnerId = '789311728'; // Фиксированный ID для десктопной версии
+        initializeApp();
       });
   } else {
     console.error('VK Bridge not found');
+    // Если VK Bridge недоступен, используем фиксированные данные
+    window.appOwnerId = '789311728';
+    initializeApp();
   }
 });
 
@@ -105,7 +114,10 @@ function initializeApp() {
   // Функция для открытия VK Pay
   function openVKPay(amount, name) {
     const amountInCoins = amount * 100; // Конвертируем рубли в копейки
-    vkBridge.send('VKWebAppOpenPayForm', {
+    console.log('Opening VK Pay with amount in coins:', amountInCoins);
+    
+    // Параметры для VK Pay
+    const payParams = {
       app_id: 53377411,
       action: 'pay-to-user',
       params: {
@@ -113,20 +125,26 @@ function initializeApp() {
         description: `Донат от ${name}`,
         user_id: window.appOwnerId
       }
-    })
-    .then(data => {
-      if (data.result) {
-        // Показываем окно успешного доната
-        successModal.style.display = 'flex';
-        // Обновляем список донатеров и прогресс
-        updateProgress(amount);
-        donors = [{ name: name, amount: amount }, ...donors];
-        renderDonors(donors);
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
+    };
+    
+    console.log('Pay params:', payParams);
+    
+    vkBridge.send('VKWebAppOpenPayForm', payParams)
+      .then(data => {
+        console.log('Payment response:', data);
+        if (data.result) {
+          // Показываем окно успешного доната
+          successModal.style.display = 'flex';
+          // Обновляем список донатеров и прогресс
+          updateProgress(amount);
+          donors = [{ name: name, amount: amount }, ...donors];
+          renderDonors(donors);
+        }
+      })
+      .catch(error => {
+        console.error('Payment error:', error);
+        alert('Произошла ошибка при открытии формы оплаты. Пожалуйста, попробуйте позже.');
+      });
   }
 
   // Обработчики событий
@@ -179,9 +197,11 @@ function initializeApp() {
   });
 
   // Обработчики для кнопок доната
-  document.querySelectorAll('.donate-button').forEach(button => {
+  document.querySelectorAll('.donate-buttons .donate-button').forEach(button => {
     button.addEventListener('click', () => {
       const amount = button.getAttribute('data-amount');
+      console.log('Clicked button amount:', amount); // Добавляем лог для отладки
+      
       if (amount === 'custom') {
         // Открываем модальное окно для ввода своей суммы
         modal.style.display = 'flex';
@@ -189,6 +209,7 @@ function initializeApp() {
         // Открываем окно оплаты с выбранной суммой
         const name = window.vkUserData ? window.vkUserData.first_name : 'Аноним';
         const donationAmount = parseInt(amount);
+        console.log('Opening VK Pay with amount:', donationAmount); // Добавляем лог для отладки
         openVKPay(donationAmount, name);
       }
     });
