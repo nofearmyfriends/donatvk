@@ -211,16 +211,18 @@ function initializeApp() {
   });
 
   // Обработчики для кнопок доната
-  document.querySelectorAll('.donate-button.floating').forEach(button => {
+  document.querySelectorAll('.donate-button').forEach(button => {
     button.addEventListener('click', () => {
-      const amount = button.dataset.amount;
+      const amount = button.getAttribute('data-amount');
+      console.log('Button clicked:', amount); // Добавим лог для отладки
+      
       if (amount === 'custom') {
         // Открываем модальное окно для ввода своей суммы
-        openDonateModal();
+        modal.style.display = 'flex';
       } else {
-        // Устанавливаем сумму и открываем окно оплаты
-        amountInput.value = amount;
-        openVKPay();
+        // Открываем окно оплаты с выбранной суммой
+        const name = window.vkUserData ? window.vkUserData.first_name : 'Аноним';
+        openVKPay(parseInt(amount), name);
       }
     });
   });
