@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Константы
 const GOAL_AMOUNT = 5000;
-const MIN_DONATION = 100;
 
 // Элементы DOM и основная логика будут инициализированы здесь
 function initializeApp() {
@@ -105,17 +104,14 @@ function initializeApp() {
 
   // Функция для открытия VK Pay
   function openVKPay(amount, name) {
+    const amountInCoins = amount * 100; // Конвертируем рубли в копейки
     vkBridge.send('VKWebAppOpenPayForm', {
       app_id: 53377411,
       action: 'pay-to-user',
       params: {
-        amount: amount,
+        amount: amountInCoins,
         description: `Донат от ${name}`,
-        user_id: window.appOwnerId,
-        data: JSON.stringify({
-          donor_name: name,
-          donation_amount: amount
-        })
+        user_id: window.appOwnerId
       }
     })
     .then(data => {
@@ -124,7 +120,8 @@ function initializeApp() {
         successModal.style.display = 'flex';
         // Обновляем список донатеров и прогресс
         updateProgress(amount);
-        renderDonors([{ name: name, amount: amount }, ...donors]);
+        donors = [{ name: name, amount: amount }, ...donors];
+        renderDonors(donors);
       }
     })
     .catch(error => {
@@ -158,24 +155,15 @@ function initializeApp() {
     }
   });
 
-  // Проверка минимальной суммы при вводе
+  // Удаляем проверку минимальной суммы при вводе
   amountInput.addEventListener('input', () => {
-    const value = parseInt(amountInput.value);
-    if (value < MIN_DONATION) {
-      amountInput.value = MIN_DONATION;
-    }
+    // Оставляем поле пустым или удаляем обработчик
   });
 
-  // Обработка отправки формы
+  // Обновляем обработку отправки формы без проверки минимальной суммы
   sendButton.addEventListener('click', () => {
     const amount = parseInt(amountInput.value);
     const name = nameInput.value.trim() || 'Аноним';
-    
-    if (amount < MIN_DONATION) {
-      alert(`Минимальная сумма доната: ${MIN_DONATION} ₽`);
-      amountInput.value = MIN_DONATION;
-      return;
-    }
     
     // Открываем окно оплаты через VK Pay
     openVKPay(amount, name);
