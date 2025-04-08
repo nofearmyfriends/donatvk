@@ -210,6 +210,21 @@ function initializeApp() {
     }
   });
 
+  // Обработчики для кнопок доната
+  document.querySelectorAll('.donate-button.floating').forEach(button => {
+    button.addEventListener('click', () => {
+      const amount = button.dataset.amount;
+      if (amount === 'custom') {
+        // Открываем модальное окно для ввода своей суммы
+        openDonateModal();
+      } else {
+        // Устанавливаем сумму и открываем окно оплаты
+        amountInput.value = amount;
+        openVKPay();
+      }
+    });
+  });
+
   // Инициализируем начальное состояние
   updateProgress();
   renderDonors();
