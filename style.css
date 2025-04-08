@@ -4,7 +4,7 @@ html, body {
   padding: 0;
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #EDEEF0;
+  background: #FFFFFF;
 }
 
 body {
@@ -17,11 +17,12 @@ body {
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .container {
   width: 100%;
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
@@ -206,10 +207,14 @@ body {
   }
   
   .container {
-    border-radius: 0;
-    box-shadow: none;
-    max-width: 960px;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 20px 32px;
+  }
+
+  .donors-wall {
+    background: transparent;
+    padding: 0;
   }
 }
 
@@ -219,11 +224,18 @@ body {
   }
 
   #root {
-    max-width: 960px;
+    background: #FFFFFF;
   }
 
   .container {
     padding: 16px;
+    max-width: 100%;
+  }
+  
+  .donors-wall {
+    background: #FFFFFF;
+    padding: 16px;
+    border-radius: 8px;
   }
 }
 
