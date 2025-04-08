@@ -125,6 +125,29 @@ function initializeApp() {
     });
   }
 
+  // Обработчики для кнопок доната (перемещаем в начало для уверенности в инициализации)
+  const donateButtons = document.querySelectorAll('.donate-buttons .donate-button');
+  console.log('Found donate buttons:', donateButtons.length); // Отладочный лог
+
+  donateButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault(); // Предотвращаем стандартное поведение кнопки
+      const amount = button.getAttribute('data-amount');
+      console.log('Button clicked with amount:', amount); // Отладочный лог
+      
+      if (amount === 'custom') {
+        // Открываем модальное окно для ввода своей суммы
+        modal.style.display = 'flex';
+      } else {
+        // Открываем окно оплаты с выбранной суммой
+        const name = window.vkUserData ? window.vkUserData.first_name : 'Аноним';
+        const donationAmount = parseInt(amount);
+        console.log('Calling openVKPay with amount:', donationAmount); // Отладочный лог
+        openVKPay(donationAmount, name);
+      }
+    });
+  });
+
   // Функция для открытия VK Pay
   function openVKPay(amount, name) {
     const amountInCoins = amount * 100; // Конвертируем рубли в копейки
@@ -208,25 +231,6 @@ function initializeApp() {
       schemeAttribute.value = e.detail.data.scheme ? e.detail.data.scheme : 'client_light';
       document.body.attributes.setNamedItem(schemeAttribute);
     }
-  });
-
-  // Обработчики для кнопок доната
-  document.querySelectorAll('.donate-buttons .donate-button').forEach(button => {
-    button.addEventListener('click', () => {
-      const amount = button.getAttribute('data-amount');
-      console.log('Clicked button amount:', amount); // Добавляем лог для отладки
-      
-      if (amount === 'custom') {
-        // Открываем модальное окно для ввода своей суммы
-        modal.style.display = 'flex';
-      } else {
-        // Открываем окно оплаты с выбранной суммой
-        const name = window.vkUserData ? window.vkUserData.first_name : 'Аноним';
-        const donationAmount = parseInt(amount);
-        console.log('Opening VK Pay with amount:', donationAmount); // Добавляем лог для отладки
-        openVKPay(donationAmount, name);
-      }
-    });
   });
 
   // Обработчик отправки формы
