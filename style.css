@@ -203,8 +203,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-height: 500px;
-  overflow-y: auto;
   padding-right: 10px;
 }
 
@@ -337,6 +335,11 @@ body {
     grid-column: 1;
     grid-row: auto;
     margin-top: 16px;
+  }
+
+  .donors-list {
+    max-height: 500px;
+    overflow-y: auto;
   }
 }
 
