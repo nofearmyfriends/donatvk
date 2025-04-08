@@ -144,6 +144,7 @@ body {
   padding: 16px;
   width: 100%;
   overflow: hidden;
+  position: relative;
 }
 
 .donors-title {
@@ -155,84 +156,46 @@ body {
   border-bottom: 1px solid #E7E8EC;
 }
 
+/* Стили для списка донатеров */
 .donors-list {
   display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  padding-bottom: 4px;
-  width: 100%;
-}
-
-.donors-list::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
-
-.donor-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  background: #F9F9F9;
-  border-radius: 8px;
-  flex: 0 0 auto;
-  min-width: 200px;
-  max-width: 200px;
-}
-
-.donor-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #5181B8;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 500;
-  margin-right: 12px;
-  font-size: 15px;
-  flex-shrink: 0;
-}
-
-.donor-info {
-  min-width: 0;
-  flex: 1;
-}
-
-.donor-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: #2A5885;
-  margin-bottom: 2px;
-  white-space: nowrap;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  max-height: 300px;
   overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.donor-amount {
-  font-size: 13px;
-  color: #818C99;
-}
-
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(-200px * var(--donor-count)));
-  }
 }
 
 .donors-list.animated {
-  animation: scroll 20s linear infinite;
-  width: max-content;
+  animation: scroll-donors 30s linear infinite;
 }
 
-.donors-list.animated:hover {
-  animation-play-state: paused;
+.donor-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 200px;
+  backdrop-filter: blur(5px);
+}
+
+.donor-name {
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.donor-amount {
+  color: #aaa;
+  font-size: 14px;
+}
+
+@keyframes scroll-donors {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(calc(-100% + 300px));
+  }
 }
 
 /* Адаптивность */
@@ -250,11 +213,22 @@ body {
     max-width: 960px;
     margin: 0 auto;
     padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+  }
+
+  .main-content {
+    padding: 0;
   }
 
   .donors-wall {
-    background: transparent;
-    padding: 0;
+    background: #FFFFFF;
+    padding: 16px;
+    border-radius: 8px;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: start;
   }
 }
 
@@ -275,6 +249,7 @@ body {
     background: #FFFFFF;
     padding: 16px;
     border-radius: 8px;
+    margin-top: 16px;
   }
 }
 

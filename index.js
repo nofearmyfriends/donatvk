@@ -273,4 +273,30 @@ function initializeApp() {
   // Инициализируем начальное состояние
   updateProgress();
   renderDonors(donors);
+}
+
+function updateDonorsList(donors) {
+  const donorsList = document.querySelector('.donors-list');
+  donorsList.innerHTML = '';
+  
+  // Создаем элементы для каждого донатера
+  donors.forEach(donor => {
+    const donorItem = document.createElement('div');
+    donorItem.className = 'donor-item';
+    donorItem.innerHTML = `
+      <div>
+        <div class="donor-name">${donor.name}</div>
+        <div class="donor-amount">${formatAmount(donor.amount)} ₽</div>
+      </div>
+    `;
+    donorsList.appendChild(donorItem);
+  });
+
+  // Добавляем класс для анимации, если донатеров больше 3
+  if (donors.length > 3) {
+    donorsList.classList.add('animated');
+    document.documentElement.style.setProperty('--donor-count', donors.length);
+  } else {
+    donorsList.classList.remove('animated');
+  }
 } 
