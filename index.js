@@ -92,37 +92,57 @@ function initializeApp() {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
 
-  // Функция для отображения донатеров
-  function renderDonors(newDonors) {
-    donorsList.innerHTML = '';
+  function initializeDonorsList() {
+    const donorsContainer = document.getElementById('donorsList');
+    const donors = donorsContainer.children;
     
-    newDonors.forEach(donor => {
+    // Если донатеров больше 4, включаем автопрокрутку
+    if (donors.length > 4) {
+      // Клонируем элементы для бесконечной прокрутки
+      Array.from(donors).forEach(donor => {
+        const clone = donor.cloneNode(true);
+        donorsContainer.appendChild(clone);
+      });
+      
+      // Устанавливаем количество донатеров для анимации
+      donorsContainer.style.setProperty('--donor-count', donors.length);
+      donorsContainer.classList.add('animated');
+    }
+  }
+
+  // Функция для отображения донатеров
+  function renderDonors(donorsList) {
+    const donorsContainer = document.getElementById('donorsList');
+    donorsContainer.innerHTML = '';
+    
+    donorsList.forEach(donor => {
       const donorItem = document.createElement('div');
       donorItem.className = 'donor-item';
       
-      const donorAvatar = document.createElement('div');
-      donorAvatar.className = 'donor-avatar';
-      donorAvatar.textContent = donor.name.charAt(0);
+      const avatar = document.createElement('div');
+      avatar.className = 'donor-avatar';
+      avatar.textContent = donor.name.charAt(0).toUpperCase();
       
-      const donorInfo = document.createElement('div');
-      donorInfo.className = 'donor-info';
+      const info = document.createElement('div');
+      info.className = 'donor-info';
       
-      const donorName = document.createElement('div');
-      donorName.className = 'donor-name';
-      donorName.textContent = donor.name;
+      const name = document.createElement('div');
+      name.className = 'donor-name';
+      name.textContent = donor.name;
       
-      const donorAmount = document.createElement('div');
-      donorAmount.className = 'donor-amount';
-      donorAmount.textContent = `${formatNumber(donor.amount)} ₽`;
+      const amount = document.createElement('div');
+      amount.className = 'donor-amount';
+      amount.textContent = `${donor.amount} ₽`;
       
-      donorInfo.appendChild(donorName);
-      donorInfo.appendChild(donorAmount);
-      
-      donorItem.appendChild(donorAvatar);
-      donorItem.appendChild(donorInfo);
-      
-      donorsList.appendChild(donorItem);
+      info.appendChild(name);
+      info.appendChild(amount);
+      donorItem.appendChild(avatar);
+      donorItem.appendChild(info);
+      donorsContainer.appendChild(donorItem);
     });
+    
+    // Инициализируем автопрокрутку после обновления списка
+    initializeDonorsList();
   }
 
   // Обработчики для кнопок доната (перемещаем в начало для уверенности в инициализации)
@@ -252,5 +272,5 @@ function initializeApp() {
 
   // Инициализируем начальное состояние
   updateProgress();
-  renderDonors();
+  renderDonors(donors);
 } 

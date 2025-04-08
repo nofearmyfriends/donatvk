@@ -4,7 +4,7 @@ html, body {
   padding: 0;
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #FFFFFF;
+  background: #EDEEF0;
 }
 
 body {
@@ -17,12 +17,11 @@ body {
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
-  width: 100%;
 }
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
@@ -143,6 +142,8 @@ body {
   background: #FFFFFF;
   border-radius: 8px;
   padding: 16px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .donors-title {
@@ -156,16 +157,29 @@ body {
 
 .donors-list {
   display: flex;
-  flex-direction: column;
   gap: 12px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  padding-bottom: 4px;
+  width: 100%;
+}
+
+.donors-list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .donor-item {
   display: flex;
   align-items: center;
-  padding: 8px;
+  padding: 8px 12px;
   background: #F9F9F9;
   border-radius: 8px;
+  flex: 0 0 auto;
+  min-width: 200px;
+  max-width: 200px;
 }
 
 .donor-avatar {
@@ -180,6 +194,12 @@ body {
   font-weight: 500;
   margin-right: 12px;
   font-size: 15px;
+  flex-shrink: 0;
+}
+
+.donor-info {
+  min-width: 0;
+  flex: 1;
 }
 
 .donor-name {
@@ -187,6 +207,9 @@ body {
   font-weight: 500;
   color: #2A5885;
   margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .donor-amount {
@@ -194,11 +217,28 @@ body {
   color: #818C99;
 }
 
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-200px * var(--donor-count)));
+  }
+}
+
+.donors-list.animated {
+  animation: scroll 20s linear infinite;
+  width: max-content;
+}
+
+.donors-list.animated:hover {
+  animation-play-state: paused;
+}
+
 /* Адаптивность */
 @media (min-width: 961px) {
   body {
     padding: 0;
-    background: #FFFFFF;
   }
   
   #root {
@@ -207,9 +247,9 @@ body {
   }
   
   .container {
-    max-width: 1200px;
+    max-width: 960px;
     margin: 0 auto;
-    padding: 20px 32px;
+    padding: 20px;
   }
 
   .donors-wall {
@@ -229,7 +269,6 @@ body {
 
   .container {
     padding: 16px;
-    max-width: 100%;
   }
   
   .donors-wall {
