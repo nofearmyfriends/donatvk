@@ -57,8 +57,8 @@ function initializeApp() {
   let currentAmount = 0;
 
   // Функция для обновления прогресса
-  function updateProgress() {
-    currentAmount = donors.reduce((sum, donor) => sum + donor.amount, 0);
+  function updateProgress(amount) {
+    currentAmount += amount;
     const progressPercent = Math.min((currentAmount / GOAL_AMOUNT) * 100, 100);
     
     progressFill.style.width = `${progressPercent}%`;
@@ -71,10 +71,10 @@ function initializeApp() {
   }
 
   // Функция для отображения донатеров
-  function renderDonors() {
+  function renderDonors(newDonors) {
     donorsList.innerHTML = '';
     
-    donors.forEach(donor => {
+    newDonors.forEach(donor => {
       const donorItem = document.createElement('div');
       donorItem.className = 'donor-item';
       
@@ -105,51 +105,30 @@ function initializeApp() {
 
   // Функция для открытия VK Pay
   function openVKPay(amount, name) {
-    const amountInCoins = amount * 100; // Конвертируем в копейки
     vkBridge.send('VKWebAppOpenPayForm', {
       app_id: 53377411,
       action: 'pay-to-user',
       params: {
-        amount: amountInCoins,
-        description: `Донат от ${name || 'Анонима'}`,
+        amount: amount,
+        description: `Донат от ${name}`,
         user_id: window.appOwnerId,
         data: JSON.stringify({
-          donor_name: name || 'Аноним',
+          donor_name: name,
           donation_amount: amount
         })
       }
     })
     .then(data => {
-      console.log('Payment response:', data);
       if (data.result) {
-        // После успешной оплаты
-        const donor = {
-          name: name || 'Аноним',
-          amount: amount,
-          date: new Date().toLocaleDateString('ru-RU')
-        };
-        
-        // Добавляем донатера в список
-        donors.push(donor);
-        
-        // Обновляем прогресс
-        updateProgress();
-        
-        // Обновляем список донатеров
-        renderDonors();
-        
-        // Закрываем модальное окно доната
-        modal.style.display = 'none';
-        
-        // Показываем модальное окно с благодарностью и ссылкой на Telegram
-        setTimeout(() => {
-          successModal.style.display = 'block';
-        }, 1000);
+        // Показываем окно успешного доната
+        successModal.style.display = 'flex';
+        // Обновляем список донатеров и прогресс
+        updateProgress(amount);
+        renderDonors([{ name: name, amount: amount }, ...donors]);
       }
     })
     .catch(error => {
-      console.error('Payment error:', error);
-      alert('Произошла ошибка при обработке платежа. Пожалуйста, попробуйте позже.');
+      console.error(error);
     });
   }
 
@@ -215,17 +194,33 @@ function initializeApp() {
   document.querySelectorAll('.donate-button').forEach(button => {
     button.addEventListener('click', () => {
       const amount = button.getAttribute('data-amount');
-      console.log('Button clicked:', amount); // Добавим лог для отладки
-      
       if (amount === 'custom') {
         // Открываем модальное окно для ввода своей суммы
         modal.style.display = 'flex';
       } else {
         // Открываем окно оплаты с выбранной суммой
         const name = window.vkUserData ? window.vkUserData.first_name : 'Аноним';
-        openVKPay(parseInt(amount), name);
+        const donationAmount = parseInt(amount);
+        openVKPay(donationAmount, name);
       }
     });
+  });
+
+  // Обработчик отправки формы
+  const donateForm = document.getElementById('donateForm');
+  donateForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const amount = parseInt(amountInput.value);
+    const name = window.vkUserData ? window.vkUserData.first_name : 'Аноним';
+    
+    // Закрываем модальное окно
+    modal.style.display = 'none';
+    
+    // Открываем VK Pay с введенной суммой
+    openVKPay(amount, name);
+    
+    // Сбрасываем значение поля ввода
+    amountInput.value = '';
   });
 
   // Инициализируем начальное состояние
