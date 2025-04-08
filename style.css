@@ -29,6 +29,7 @@ body {
   -webkit-font-smoothing: antialiased;
   background: #f8f9fa;
   color: var(--text-primary);
+  min-height: 100vh;
 }
 
 .container {
@@ -236,55 +237,143 @@ body {
 
 /* Стена донатеров */
 .donors-wall {
-  background: var(--vkui--color_background_content);
-  border-radius: var(--vkui--size_border_radius--regular);
-  padding: 16px;
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
   grid-column: 2;
   grid-row: 1 / span 2;
   align-self: start;
+  animation: slideUp 0.5s ease-out;
 }
 
 .donors-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
-  color: var(--vkui--color_text_primary);
-  margin-bottom: 16px;
-  padding-bottom: 12px;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
   border-bottom: 1px solid #E7E8EC;
 }
 
 .donors-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-height: 300px;
+  gap: 12px;
+  max-height: 400px;
   overflow-y: auto;
+  padding-right: 8px;
+}
+
+.donors-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.donors-list::-webkit-scrollbar-track {
+  background: #F5F7FA;
+  border-radius: 100px;
+}
+
+.donors-list::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 100px;
 }
 
 .donor-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background: #F5F5F5;
-  border-radius: var(--vkui--size_border_radius--regular);
-  transition: background-color 0.2s;
+  gap: 16px;
+  padding: 16px;
+  background: #F8FAFC;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
 }
 
 .donor-item:hover {
-  background: #EFEFEF;
+  transform: translateX(4px);
+  background: #F1F5F9;
+}
+
+.donor-avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.donor-info {
+  flex: 1;
 }
 
 .donor-name {
   font-size: 14px;
-  font-weight: 500;
-  color: var(--vkui--color_text_primary);
+  font-weight: 600;
+  color: var(--text-primary);
   margin-bottom: 4px;
 }
 
 .donor-amount {
   font-size: 13px;
-  color: var(--vkui--color_text_secondary);
+  color: var(--text-secondary);
+}
+
+/* Анимации */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shine {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2) rotate(15deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(142, 84, 233, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(142, 84, 233, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(142, 84, 233, 0);
+  }
 }
 
 /* Адаптивность */
@@ -476,57 +565,4 @@ body {
 .telegram-button:hover {
   background: #0077b5;
   transform: translateY(-2px);
-}
-
-/* Анимации */
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes shine {
-  from {
-    left: -100%;
-  }
-  to {
-    left: 100%;
-  }
-}
-
-@keyframes sparkle {
-  0%, 100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2) rotate(15deg);
-    opacity: 0.8;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(142, 84, 233, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(142, 84, 233, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(142, 84, 233, 0);
-  }
 }
