@@ -105,13 +105,14 @@ function initializeApp() {
 
   // Функция для открытия VK Pay
   function openVKPay(amount, name) {
+    const amountInCoins = amount * 100; // Конвертируем в копейки
     vkBridge.send('VKWebAppOpenPayForm', {
       app_id: 53377411,
       action: 'pay-to-user',
       params: {
-        amount: amount,
+        amount: amountInCoins,
         description: `Донат от ${name || 'Анонима'}`,
-        user_id: window.appOwnerId, // Используем ID владельца приложения
+        user_id: window.appOwnerId,
         data: JSON.stringify({
           donor_name: name || 'Аноним',
           donation_amount: amount

@@ -113,67 +113,45 @@ body {
   /* Стили для кнопок доната */
   .donate-buttons {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    margin: 30px 0;
+    gap: 10px;
+    margin: 20px 0;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   
-  .donate-button.floating {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #ff6b6b, #ff8787);
+  /* Стили для кнопок с фиксированными суммами */
+  .donate-button {
+    padding: 8px 16px;
     border: none;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-  }
-  
-  .donate-button.floating:nth-child(1) {
-    animation: float 3s ease-in-out infinite;
-  }
-  
-  .donate-button.floating:nth-child(2) {
-    animation: float 3s ease-in-out infinite 0.5s;
-  }
-  
-  .donate-button.floating:nth-child(3) {
-    animation: float 3s ease-in-out infinite 1s;
-  }
-  
-  .donate-button.floating:nth-child(4) {
-    animation: float 3s ease-in-out infinite 1.5s;
-  }
-  
-  .donate-button.floating:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
-  }
-  
-  .donate-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    border-radius: 12px;
+    background: linear-gradient(135deg, #4680EB, #3B5998);
     color: white;
-    font-size: 1.2em;
-    font-weight: bold;
-    text-align: center;
-    width: 100%;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(70, 128, 235, 0.2);
   }
   
-  @keyframes float {
-    0% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-15px);
-    }
-    100% {
-        transform: translateY(0px);
-    }
+  .donate-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(70, 128, 235, 0.3);
+  }
+  
+  /* Кнопка "Своя сумма" */
+  .donate-button[data-amount="custom"] {
+    background: linear-gradient(135deg, #5B6B8F, #3B5998);
+  }
+  
+  /* Основная кнопка поддержки */
+  #donateButton {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+    padding: 12px 24px;
+    font-size: 16px;
+    background: linear-gradient(135deg, #4680EB, #3B5998);
+    border-radius: 15px;
   }
   
   /* Модальное окно */
@@ -474,9 +452,9 @@ body {
       font-size: 14px;
     }
     
-    .donate-button.floating {
-      width: 100px;
-      height: 100px;
+    .donate-button {
+      padding: 6px 12px;
+      font-size: 13px;
     }
     
     .donate-icon {
@@ -545,5 +523,14 @@ body {
     
     .action-button {
       width: 100%;
+    }
+    
+    .donate-buttons {
+      gap: 8px;
+    }
+    
+    .donate-button {
+      padding: 6px 12px;
+      font-size: 13px;
     }
   }
