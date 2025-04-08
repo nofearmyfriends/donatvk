@@ -71,16 +71,18 @@ body {
   background-clip: text;
   color: transparent;
   font-weight: 600;
+  position: relative;
 }
 
-.page-title::after {
+/* Закомментируем этот блок для проверки */
+/* .page-title::after {
   content: '✨';
   position: absolute;
-  right: -30px;
+  right: -30px; 
   top: 0;
   font-size: 24px;
   animation: sparkle 2s infinite;
-}
+} */
 
 .page-description {
   color: var(--secondary-text);
