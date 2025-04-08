@@ -4,36 +4,50 @@ document.addEventListener('DOMContentLoaded', function() {
   const isMobile = window.innerWidth <= 768;
   
   // Инициализация VK Mini Apps
-  if (window.vkBridge) {
-    // Инициализируем VK Bridge
-    vkBridge.send('VKWebAppInit', {})
-      .then(() => {
-        console.log('VK Bridge initialized');
-        return vkBridge.send('VKWebAppGetLaunchParams');
-      })
-      .then(launchParams => {
-        console.log('Launch params:', launchParams);
-        // Сохраняем ID владельца из параметров запуска или используем фиксированный ID
-        window.appOwnerId = launchParams.vk_user_id || '789311728';
-        return vkBridge.send('VKWebAppGetUserInfo');
-      })
-      .then(data => {
-        console.log('User data:', data);
-        window.vkUserData = data;
-        initializeApp();
-      })
-      .catch(error => {
-        console.error('VK Bridge initialization failed:', error);
-        // В случае ошибки всё равно инициализируем приложение
-        window.appOwnerId = '789311728'; // Фиксированный ID для десктопной версии
-        initializeApp();
-      });
-  } else {
-    console.error('VK Bridge not found');
-    // Если VK Bridge недоступен, используем фиксированные данные
-    window.appOwnerId = '789311728';
-    initializeApp();
+  function initVkMiniApp() {
+    return new Promise((resolve, reject) => {
+      if (!window.vkBridge) {
+        window.vkBridge = {
+          send: function(method, params = {}) {
+            if (method === 'VKWebAppOpenPayForm') {
+              console.log('Desktop VK Pay called with params:', params);
+              // Для десктопа просто открываем в новом окне
+              const amount = params.params.amount / 100; // Конвертируем обратно в рубли для показа
+              alert(`На десктопе будет открыто окно оплаты на сумму ${amount} рублей`);
+              return Promise.resolve({ result: true });
+            }
+            return Promise.resolve({});
+          }
+        };
+      }
+
+      vkBridge.send('VKWebAppInit', {})
+        .then(() => {
+          console.log('VK Bridge initialized');
+          return vkBridge.send('VKWebAppGetLaunchParams');
+        })
+        .then(launchParams => {
+          console.log('Launch params:', launchParams);
+          window.appOwnerId = launchParams.vk_user_id || '789311728';
+          return vkBridge.send('VKWebAppGetUserInfo');
+        })
+        .then(data => {
+          console.log('User data:', data);
+          window.vkUserData = data;
+          resolve();
+        })
+        .catch(error => {
+          console.warn('VK Bridge initialization warning:', error);
+          window.appOwnerId = '789311728';
+          resolve();
+        });
+    });
   }
+
+  // Запускаем инициализацию и только потом инициализируем приложение
+  initVkMiniApp().then(() => {
+    initializeApp();
+  });
 });
 
 // Константы
@@ -129,7 +143,7 @@ function initializeApp() {
     
     console.log('Pay params:', payParams);
     
-    vkBridge.send('VKWebAppOpenPayForm', payParams)
+    return vkBridge.send('VKWebAppOpenPayForm', payParams)
       .then(data => {
         console.log('Payment response:', data);
         if (data.result) {
