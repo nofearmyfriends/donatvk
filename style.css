@@ -162,31 +162,6 @@ body {
   box-shadow: 0 5px 15px var(--shadow-color);
 }
 
-/* Основная кнопка поддержки */
-.support-button {
-  width: 100%;
-  padding: 18px;
-  border: none;
-  border-radius: 15px;
-  background: var(--primary-gradient);
-  color: white;
-  font-size: 1.1em;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  animation: pulse 2s infinite;
-}
-
-.support-button::before {
-  content: '💝';
-  margin-right: 8px;
-}
-
-.support-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px var(--shadow-color);
-}
-
 /* Стена донатеров */
 .donaters-wall {
   background: white;
