@@ -90,24 +90,6 @@ function initializeApp() {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
 
-  function initializeDonatersList() {
-    const donatersContainer = document.getElementById('donatersList');
-    const donaters = donatersContainer.children;
-    
-    // Если донатеров больше 4, включаем автопрокрутку
-    if (donaters.length > 4) {
-      // Клонируем элементы для бесконечной прокрутки
-      Array.from(donaters).forEach(donater => {
-        const clone = donater.cloneNode(true);
-        donatersContainer.appendChild(clone);
-      });
-      
-      // Устанавливаем количество донатеров для анимации
-      donatersContainer.style.setProperty('--donater-count', donaters.length);
-      donatersContainer.classList.add('animated');
-    }
-  }
-
   // Функция для отображения донатеров
   function renderDonaters(donatersList) {
     const donatersContainer = document.getElementById('donatersList');
@@ -138,9 +120,6 @@ function initializeApp() {
       donaterItem.appendChild(info);
       donatersContainer.appendChild(donaterItem);
     });
-    
-    // Инициализируем автопрокрутку после обновления списка
-    initializeDonatersList();
   }
 
   // Обработчики для кнопок доната (перемещаем в начало для уверенности в инициализации)
@@ -278,7 +257,6 @@ function updateDonatersList(donaters) {
   const donatersList = document.querySelector('.donaters-list');
   donatersList.innerHTML = '';
   
-  // Создаем элементы для каждого донатера
   donaters.forEach(donater => {
     const donaterItem = document.createElement('div');
     donaterItem.className = 'donater-item';
@@ -290,12 +268,4 @@ function updateDonatersList(donaters) {
     `;
     donatersList.appendChild(donaterItem);
   });
-
-  // Добавляем класс для анимации, если донатеров больше 3
-  if (donaters.length > 3) {
-    donatersList.classList.add('animated');
-    document.documentElement.style.setProperty('--donater-count', donaters.length);
-  } else {
-    donatersList.classList.remove('animated');
-  }
 } 

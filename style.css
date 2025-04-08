@@ -324,24 +324,16 @@ body {
   }
 
   .donaters-list {
-    max-height: 500px;
-    overflow-y: auto;
-    padding-right: 10px;
+    /* Удаляем эти строки */
+    /* max-height: 500px; */
+    /* overflow-y: auto; */
+    /* padding-right: 10px; */
   }
 
-  .donaters-list::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .donaters-list::-webkit-scrollbar-track {
-    background: #F5F7FA;
-    border-radius: 100px;
-  }
-
-  .donaters-list::-webkit-scrollbar-thumb {
-    background: #D1D5DB;
-    border-radius: 100px;
-  }
+  /* Удаляем весь этот блок */
+  /* .donaters-list::-webkit-scrollbar { ... } */
+  /* .donaters-list::-webkit-scrollbar-track { ... } */
+  /* .donaters-list::-webkit-scrollbar-thumb { ... } */
 }
 
 @media (max-width: 480px) {
