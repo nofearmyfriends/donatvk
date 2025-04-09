@@ -48,6 +48,75 @@ document.addEventListener('DOMContentLoaded', function() {
   initVkMiniApp().then(() => {
     initializeApp();
   });
+
+  // Обработчики для кнопок доната
+  const donateButtons = document.querySelectorAll('.donate-button');
+  const sbpModal = document.getElementById('sbp-modal');
+  const customAmountModal = document.getElementById('custom-amount-modal');
+  const closeButtons = document.querySelectorAll('.close');
+  const customAmountInput = document.getElementById('custom-amount');
+  const confirmAmountButton = document.getElementById('confirm-amount');
+  const paymentAmount = document.getElementById('payment-amount');
+
+  console.log('Found donate buttons:', donateButtons.length); // Отладочный лог
+
+  // Функция для открытия модального окна СБП
+  function openSbpModal(amount) {
+    console.log('Opening SBP modal with amount:', amount); // Отладочный лог
+    paymentAmount.textContent = amount;
+    sbpModal.style.display = 'block';
+  }
+
+  // Обработчики для кнопок доната
+  donateButtons.forEach((button, index) => {
+    button.addEventListener('click', function(e) {
+      console.log('Button clicked:', index); // Отладочный лог
+      e.preventDefault();
+      
+      // Первая кнопка (99₽ - VK Donat)
+      if (index === 0) {
+        console.log('Opening VK Donat link'); // Отладочный лог
+        window.location.href = 'https://vk.com/donut/vkusnosttt?amount=99';
+        return;
+      }
+      
+      // Остальные кнопки
+      const amount = this.getAttribute('data-amount');
+      console.log('Button amount:', amount); // Отладочный лог
+      if (amount === 'custom') {
+        customAmountModal.style.display = 'block';
+      } else {
+        openSbpModal(amount);
+      }
+    });
+  });
+
+  // Обработчик для кнопки подтверждения суммы
+  confirmAmountButton.addEventListener('click', function() {
+    const amount = customAmountInput.value;
+    if (amount && amount > 0) {
+      openSbpModal(amount);
+      customAmountModal.style.display = 'none';
+    }
+  });
+
+  // Закрытие модальных окон
+  closeButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      sbpModal.style.display = 'none';
+      customAmountModal.style.display = 'none';
+    });
+  });
+
+  // Закрытие модальных окон при клике вне их области
+  window.addEventListener('click', function(event) {
+    if (event.target === sbpModal) {
+      sbpModal.style.display = 'none';
+    }
+    if (event.target === customAmountModal) {
+      customAmountModal.style.display = 'none';
+    }
+  });
 });
 
 // Константы
@@ -119,69 +188,6 @@ function initializeApp() {
       donatersContainer.appendChild(donaterItem);
     });
   }
-
-  // Обработчики для кнопок доната
-  const donateButtons = document.querySelectorAll('.donate-button');
-  const sbpModal = document.getElementById('sbp-modal');
-  const customAmountModal = document.getElementById('custom-amount-modal');
-  const closeButtons = document.querySelectorAll('.close');
-  const customAmountInput = document.getElementById('custom-amount');
-  const confirmAmountButton = document.getElementById('confirm-amount');
-  const paymentAmount = document.getElementById('payment-amount');
-
-  // Функция для открытия модального окна СБП
-  function openSbpModal(amount) {
-    paymentAmount.textContent = amount;
-    sbpModal.style.display = 'block';
-  }
-
-  // Обработчики для кнопок доната
-  donateButtons.forEach((button, index) => {
-    button.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      // Первая кнопка (99₽ - VK Donat)
-      if (index === 0) {
-        window.location.href = 'https://vk.com/donut/vkusnosttt?amount=99';
-        return;
-      }
-      
-      // Остальные кнопки
-      const amount = this.getAttribute('data-amount');
-      if (amount === 'custom') {
-        customAmountModal.style.display = 'block';
-      } else {
-        openSbpModal(amount);
-      }
-    });
-  });
-
-  // Обработчик для кнопки подтверждения суммы
-  confirmAmountButton.addEventListener('click', function() {
-    const amount = customAmountInput.value;
-    if (amount && amount > 0) {
-      openSbpModal(amount);
-      customAmountModal.style.display = 'none';
-    }
-  });
-
-  // Закрытие модальных окон
-  closeButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      sbpModal.style.display = 'none';
-      customAmountModal.style.display = 'none';
-    });
-  });
-
-  // Закрытие модальных окон при клике вне их области
-  window.addEventListener('click', function(event) {
-    if (event.target === sbpModal) {
-      sbpModal.style.display = 'none';
-    }
-    if (event.target === customAmountModal) {
-      customAmountModal.style.display = 'none';
-    }
-  });
 
   // Обработчики событий
   cancelButton.addEventListener('click', () => {
