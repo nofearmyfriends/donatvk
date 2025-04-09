@@ -41,4 +41,12 @@ document.addEventListener('click', (e) => {
     if (modal && (e.target === modal || e.target.closest('.close'))) {
         modal.style.display = 'none';
     }
+});
+
+// Добавление обработчика для кнопки "Оплатить"
+document.getElementById('pay-button').addEventListener('click', function() {
+    const amount = document.getElementById('payment-amount').textContent;
+    const bank = document.getElementById('bank-select').value;
+    window.sbpPayment.openSbpApp(amount, 'Добровольное пожертвование', bank);
+    document.getElementById('sbp-modal').style.display = 'none';
 }); 
