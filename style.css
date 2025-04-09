@@ -502,7 +502,22 @@ body {
 }
 
 .sbp-logo {
-    width: 100px;
-    margin-bottom: 20px;
+    width: 200px;
+    max-width: 100%;
+    height: auto;
+    margin: 20px auto;
+    display: block;
     cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.sbp-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 768px) {
+    .sbp-logo {
+        width: 150px;
+    }
 }
