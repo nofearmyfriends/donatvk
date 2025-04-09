@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 - Initial setup of CHANGELOG.md
+- Implemented caching for faster page load times
 
 ## [1.0.0] - YYYY-MM-DD
 ### Added

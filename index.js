@@ -180,4 +180,16 @@ function initializeApp() {
   currentAmount = donaters.reduce((sum, donater) => sum + donater.amount, 0);
   updateProgress(0); // Передаем 0, так как мы уже обновили currentAmount
   renderDonaters(donaters);
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => {
+        console.log('Service Worker registered with scope:', registration.scope);
+      })
+      .catch(error => {
+        console.error('Service Worker registration failed:', error);
+      });
+  });
 } 
