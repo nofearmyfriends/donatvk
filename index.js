@@ -120,14 +120,58 @@ function initializeApp() {
     });
   }
 
-  // Обновляем обработчики кнопок
+  // Обработчики для кнопок доната
   const donateButtons = document.querySelectorAll('.donate-button');
+  const sbpModal = document.getElementById('sbp-modal');
+  const customAmountModal = document.getElementById('custom-amount-modal');
+  const closeButtons = document.querySelectorAll('.close');
+  const customAmountInput = document.getElementById('custom-amount');
+  const confirmAmountButton = document.getElementById('confirm-amount');
+  const paymentAmount = document.getElementById('payment-amount');
+
+  // Функция для открытия модального окна СБП
+  function openSbpModal(amount) {
+    paymentAmount.textContent = amount;
+    sbpModal.style.display = 'block';
+  }
+
+  // Обработчики для кнопок доната
   donateButtons.forEach(button => {
     button.addEventListener('click', () => {
-      const amount = button.textContent.trim();
-      const url = `https://vk.com/donut/vkusnosttt?amount=${amount}`;
-      window.open(url, '_blank');
+      const amount = button.getAttribute('data-amount');
+      if (amount === 'custom') {
+        customAmountModal.style.display = 'block';
+      } else {
+        openSbpModal(amount);
+      }
     });
+  });
+
+  // Обработчик для кнопки подтверждения суммы
+  confirmAmountButton.addEventListener('click', () => {
+    const amount = customAmountInput.value;
+    if (amount && amount > 0) {
+      openSbpModal(amount);
+      customAmountModal.style.display = 'none';
+    }
+  });
+
+  // Закрытие модальных окон
+  closeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      sbpModal.style.display = 'none';
+      customAmountModal.style.display = 'none';
+    });
+  });
+
+  // Закрытие модальных окон при клике вне их области
+  window.addEventListener('click', (event) => {
+    if (event.target === sbpModal) {
+      sbpModal.style.display = 'none';
+    }
+    if (event.target === customAmountModal) {
+      customAmountModal.style.display = 'none';
+    }
   });
 
   // Обработчики событий

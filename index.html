@@ -28,13 +28,44 @@
       </div>
       
       <div class="donate-buttons">
-        <button class="donate-button">99₽ - VK Donat</button>
+        <button class="donate-button" data-amount="150">150₽</button>
+        <button class="donate-button" data-amount="200">200₽</button>
+        <button class="donate-button" data-amount="custom">Своя сумма</button>
       </div>
     </div>
     
     <div class="donaters-wall">
       <h2 class="donaters-title">🏆 Стена донатеров</h2>
       <div id="donatersList" class="donaters-list"></div>
+    </div>
+  </div>
+  
+  <!-- Модальное окно для СБП -->
+  <div id="sbp-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Оплата через СБП</h2>
+      <div class="sbp-container">
+        <div class="qr-code">
+          <!-- Здесь будет QR-код -->
+          <img src="qr-placeholder.png" alt="QR код для оплаты">
+        </div>
+        <div class="payment-info">
+          <p>Сумма: <span id="payment-amount">0</span>₽</p>
+          <p>Получатель: <span id="recipient-name">Получатель</span></p>
+          <p>Счет: <span id="account-number">XXXX XXXX XXXX XXXX</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно для ввода своей суммы -->
+  <div id="custom-amount-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Введите сумму</h2>
+      <input type="number" id="custom-amount" placeholder="Введите сумму" min="1">
+      <button id="confirm-amount">Подтвердить</button>
     </div>
   </div>
   
