@@ -299,4 +299,27 @@ function initializeButtons() {
       customAmountModal.style.display = 'none';
     }
   };
+
+  // Обработчик для кнопки СБП
+  document.querySelector('.donate-button[data-amount="custom"]').addEventListener('click', function() {
+    const amount = this.getAttribute('data-amount');
+    if (amount === 'custom') {
+      const customAmountModal = document.getElementById('custom-amount-modal');
+      if (customAmountModal) {
+        customAmountModal.style.display = 'block';
+      }
+    } else {
+      // Открываем СБП с указанной суммой
+      window.sbpPayment.openSbpApp(amount, 'Добровольное пожертвование');
+    }
+  });
+
+  // Обработчик для подтверждения своей суммы
+  document.getElementById('confirm-amount').addEventListener('click', function() {
+    const amount = document.getElementById('custom-amount').value;
+    if (amount && amount > 0) {
+      window.sbpPayment.openSbpApp(amount, 'Добровольное пожертвование');
+      document.getElementById('custom-amount-modal').style.display = 'none';
+    }
+  });
 } 
