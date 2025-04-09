@@ -135,41 +135,51 @@ function initializeApp() {
   }
 
   // Обработчики событий
-  cancelButton.addEventListener('click', () => {
-    modal.style.display = 'none';
-  });
+  if (cancelButton) {
+    cancelButton.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+  }
 
-  closeSuccessButton.addEventListener('click', () => {
-    successModal.style.display = 'none';
-  });
+  if (closeSuccessButton) {
+    closeSuccessButton.addEventListener('click', () => {
+      successModal.style.display = 'none';
+    });
+  }
 
   // Закрытие модального окна при клике вне его
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  }
 
-  successModal.addEventListener('click', (e) => {
-    if (e.target === successModal) {
-      successModal.style.display = 'none';
-    }
-  });
+  if (successModal) {
+    successModal.addEventListener('click', (e) => {
+      if (e.target === successModal) {
+        successModal.style.display = 'none';
+      }
+    });
+  }
 
   // Обновляем обработку отправки формы без проверки минимальной суммы
-  sendButton.addEventListener('click', () => {
-    const amount = parseInt(amountInput.value);
-    const name = window.vkUserData ? window.vkUserData.first_name : 'Аноним';
-    
-    // Закрываем модальное окно перед отправкой
-    modal.style.display = 'none';
-    
-    // Открываем окно оплаты через VK Pay
-    openVKPay(amount, name);
-    
-    // Сбрасываем значение поля ввода
-    amountInput.value = '';
-  });
+  if (sendButton) {
+    sendButton.addEventListener('click', () => {
+      const amount = parseInt(amountInput.value);
+      const name = window.vkUserData ? window.vkUserData.first_name : 'Аноним';
+      
+      // Закрываем модальное окно перед отправкой
+      modal.style.display = 'none';
+      
+      // Открываем окно оплаты через VK Pay
+      openVKPay(amount, name);
+      
+      // Сбрасываем значение поля ввода
+      amountInput.value = '';
+    });
+  }
 
   // Подписываемся на события VK Bridge
   vkBridge.subscribe(e => {
