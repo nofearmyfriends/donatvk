@@ -180,6 +180,49 @@ function initializeApp() {
   currentAmount = donaters.reduce((sum, donater) => sum + donater.amount, 0);
   updateProgress(0); // Передаем 0, так как мы уже обновили currentAmount
   renderDonaters(donaters);
+
+  const feedbackButton = document.querySelector('.feedback-button');
+  const feedbackModal = document.getElementById('feedback-modal');
+  const closeModal = document.querySelector('.close');
+
+  feedbackButton.addEventListener('click', () => {
+    feedbackModal.style.display = 'block';
+  });
+
+  closeModal.addEventListener('click', () => {
+    feedbackModal.style.display = 'none';
+  });
+
+  window.addEventListener('click', (event) => {
+    if (event.target === feedbackModal) {
+      feedbackModal.style.display = 'none';
+    }
+  });
+
+  // Подключаем EmailJS
+  emailjs.init('YOUR_USER_ID');
+
+  const submitFeedbackButton = document.getElementById('submit-feedback');
+
+  submitFeedbackButton.addEventListener('click', () => {
+    const name = document.getElementById('feedback-name').value;
+    const question = document.getElementById('feedback-question').value;
+
+    const templateParams = {
+      name: name,
+      question: question,
+      email: 'vkusnostttt@vk.com'
+    };
+
+    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+      .then(response => {
+        console.log('Email sent successfully!', response.status, response.text);
+        feedbackModal.style.display = 'none';
+      })
+      .catch(error => {
+        console.error('Failed to send email:', error);
+      });
+  });
 }
 
 if ('serviceWorker' in navigator) {
