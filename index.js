@@ -136,16 +136,25 @@ function initializeApp() {
   }
 
   // Обработчики для кнопок доната
-  donateButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const amount = button.getAttribute('data-amount');
-      if (amount === 'custom') {
-        customAmountModal.style.display = 'block';
-      } else if (amount === '99') {
+  donateButtons.forEach((button, index) => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault(); // Предотвращаем стандартное поведение кнопки
+      
+      // Первая кнопка (99₽ - VK Donat) открывает ссылку на группу ВК
+      if (index === 0) {
         const url = `https://vk.com/donut/vkusnosttt?amount=99`;
         window.open(url, '_blank');
-      } else {
-        openSbpModal(amount);
+        return;
+      }
+      
+      // Остальные кнопки открывают СБП
+      if (button.hasAttribute('data-amount')) {
+        const amount = button.getAttribute('data-amount');
+        if (amount === 'custom') {
+          customAmountModal.style.display = 'block';
+        } else {
+          openSbpModal(amount);
+        }
       }
     });
   });
