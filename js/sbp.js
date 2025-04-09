@@ -24,26 +24,20 @@ function openSbpApp(amount) {
         return;
     }
 
-    // Определяем платформу
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isAndroid = /Android/.test(navigator.userAgent);
-    
-    if (isIOS || isAndroid) {
-        // Пробуем открыть приложение Сбербанк
-        window.location.href = 'sberbankonline://payments';
-        
-        // Если приложение не открылось через 2.5 секунды, 
-        // перенаправляем в магазин приложений
-        setTimeout(function() {
-            if (isIOS) {
-                window.location.href = 'https://apps.apple.com/ru/app/сбербанк-онлайн/id492224193';
-            } else {
-                window.location.href = 'https://play.google.com/store/apps/details?id=ru.sberbankmobile';
-            }
-        }, 2500);
-    } else {
-        alert('Оплата через СБП доступна только на мобильных устройствах');
-    }
+    // Пробуем открыть приложение СБП
+    const sbpUrl = `sbp://payment?${params}`;
+    window.location.href = sbpUrl;
+
+    // Если приложение не открылось через 2.5 секунды, 
+    // перенаправляем в магазин приложений
+    setTimeout(function() {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        if (isIOS) {
+            window.location.href = 'https://apps.apple.com/ru/app/сбербанк-онлайн/id492224193';
+        } else {
+            window.location.href = 'https://play.google.com/store/apps/details?id=ru.sberbankmobile';
+        }
+    }, 2500);
 }
 
 // Инициализация после загрузки DOM
