@@ -74,6 +74,12 @@ function initializeApp() {
   const progressFill = document.getElementById('progressFill');
   const currentAmountElement = document.getElementById('currentAmount');
 
+  // Проверяем наличие всех необходимых элементов
+  if (!modal || !successModal || !amountInput || !sendButton || !cancelButton || !closeSuccessButton || !donatersList || !progressFill || !currentAmountElement) {
+    console.error('One or more DOM elements are missing. Initialization aborted.');
+    return;
+  }
+
   // Массив донатеров (в реальном приложении будет загружаться с сервера)
   let donaters = [
     { name: 'Аноним', amount: 800 }
