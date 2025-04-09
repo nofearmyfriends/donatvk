@@ -59,8 +59,7 @@ body {
 }
 
 .main-content:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  /* Удаляем анимацию при наведении */
 }
 
 .page-title {
