@@ -3,9 +3,9 @@ function generateSbpParams(amount, purpose) {
     const params = new URLSearchParams({
         amount: amount,
         purpose: purpose || 'Добровольное пожертвование',
-        account: 'YOUR_ACCOUNT_NUMBER', // Замените на ваш номер счета
-        name: 'YOUR_NAME', // Замените на ваше имя
-        bank: 'YOUR_BANK' // Замените на ваш банк
+        account: '220220094349948',
+        name: 'Mikhail',
+        bank: 'Сбербанк'
     });
     return params.toString();
 }
