@@ -24,7 +24,7 @@
         <div class="progress-bar">
           <div class="progress-fill" style="width: 0%"></div>
         </div>
-        <div class="progress-text">0 ₽ из 5 000 ₽</div>
+        <div class="progress-text" id="currentAmount">0 ₽ из 5 000 ₽</div>
       </div>
       
       <div class="donate-buttons">
@@ -41,6 +41,25 @@
     </div>
   </div>
   
+  <!-- Модальное окно -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="cancelButton">&times;</span>
+      <h2>Подтверждение</h2>
+      <input type="number" id="amount" placeholder="Введите сумму" min="1">
+      <button id="sendButton">Отправить</button>
+    </div>
+  </div>
+
+  <!-- Модальное окно успеха -->
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeSuccessButton">&times;</span>
+      <h2>Успех!</h2>
+      <p>Ваш донат успешно отправлен. Спасибо за поддержку!</p>
+    </div>
+  </div>
+
   <!-- Модальное окно для СБП -->
   <div id="sbp-modal" class="modal">
     <div class="modal-content">
