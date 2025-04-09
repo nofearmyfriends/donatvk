@@ -1,14 +1,19 @@
 // Дожидаемся загрузки DOM перед инициализацией
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM Content Loaded');
+  
   // Определяем, запущено ли приложение в мобильном клиенте или на десктопе
   const isMobile = window.innerWidth <= 768;
+  console.log('Is mobile:', isMobile);
   
   // Инициализация VK Mini Apps
   function initVkMiniApp() {
     return new Promise((resolve, reject) => {
       if (!window.vkBridge) {
+        console.log('VK Bridge not found, creating mock');
         window.vkBridge = {
           send: function(method, params = {}) {
+            console.log('Mock VK Bridge called:', method, params);
             if (method === 'VKWebAppOpenPayForm') {
               console.log('Desktop VK Pay called with params:', params);
               // Для десктопа просто открываем в новом окне
@@ -46,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Запускаем инициализацию и только потом инициализируем приложение
   initVkMiniApp().then(() => {
+    console.log('VK Mini App initialized');
     initializeApp();
     initializeButtons();
   });
@@ -56,6 +62,7 @@ const GOAL_AMOUNT = 5000;
 
 // Элементы DOM и основная логика будут инициализированы здесь
 function initializeApp() {
+  console.log('Initializing app');
   // Элементы DOM
   const modal = document.getElementById('modal');
   const successModal = document.getElementById('successModal');
@@ -175,6 +182,8 @@ function initializeApp() {
 
 // Инициализация кнопок и обработчиков событий
 function initializeButtons() {
+  console.log('Initializing buttons');
+  
   const donateButtons = document.querySelectorAll('.donate-button');
   const sbpModal = document.getElementById('sbp-modal');
   const customAmountModal = document.getElementById('custom-amount-modal');
@@ -183,20 +192,36 @@ function initializeButtons() {
   const confirmAmountButton = document.getElementById('confirm-amount');
   const paymentAmount = document.getElementById('payment-amount');
 
-  console.log('Found donate buttons:', donateButtons.length);
+  // Проверяем наличие всех необходимых элементов
+  console.log('Elements found:', {
+    donateButtons: donateButtons.length,
+    sbpModal: !!sbpModal,
+    customAmountModal: !!customAmountModal,
+    closeButtons: closeButtons.length,
+    customAmountInput: !!customAmountInput,
+    confirmAmountButton: !!confirmAmountButton,
+    paymentAmount: !!paymentAmount
+  });
 
   // Функция для открытия модального окна СБП
   function openSbpModal(amount) {
     console.log('Opening SBP modal with amount:', amount);
-    paymentAmount.textContent = amount;
-    sbpModal.style.display = 'block';
+    if (paymentAmount) {
+      paymentAmount.textContent = amount;
+    }
+    if (sbpModal) {
+      sbpModal.style.display = 'block';
+    }
   }
 
   // Обработчики для кнопок доната
   donateButtons.forEach((button, index) => {
-    button.addEventListener('click', function(e) {
-      console.log('Button clicked:', index);
+    console.log(`Adding click handler to button ${index}:`, button.textContent);
+    
+    button.onclick = function(e) {
+      console.log(`Button ${index} clicked`);
       e.preventDefault();
+      e.stopPropagation();
       
       // Первая кнопка (99₽ - VK Donat)
       if (index === 0) {
@@ -206,6 +231,10 @@ function initializeButtons() {
           vkBridge.send('VKWebAppOpenPayForm', {
             amount: 9900, // 99 рублей в копейках
             description: 'Донат на развитие канала'
+          }).then(response => {
+            console.log('VK Pay response:', response);
+          }).catch(error => {
+            console.error('VK Pay error:', error);
           });
         } else {
           // Для десктопа открываем в новом окне
@@ -218,39 +247,53 @@ function initializeButtons() {
       const amount = this.getAttribute('data-amount');
       console.log('Button amount:', amount);
       if (amount === 'custom') {
-        customAmountModal.style.display = 'block';
+        if (customAmountModal) {
+          customAmountModal.style.display = 'block';
+        }
       } else {
         openSbpModal(amount);
       }
-    });
+    };
   });
 
   // Обработчик для кнопки подтверждения суммы
-  confirmAmountButton.addEventListener('click', function() {
-    const amount = customAmountInput.value;
-    if (amount && amount > 0) {
-      openSbpModal(amount);
-      customAmountModal.style.display = 'none';
-    }
-  });
+  if (confirmAmountButton) {
+    confirmAmountButton.onclick = function() {
+      console.log('Confirm amount button clicked');
+      const amount = customAmountInput ? customAmountInput.value : null;
+      if (amount && amount > 0) {
+        openSbpModal(amount);
+        if (customAmountModal) {
+          customAmountModal.style.display = 'none';
+        }
+      }
+    };
+  }
 
   // Закрытие модальных окон
   closeButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      sbpModal.style.display = 'none';
-      customAmountModal.style.display = 'none';
-    });
+    button.onclick = function() {
+      console.log('Close button clicked');
+      if (sbpModal) {
+        sbpModal.style.display = 'none';
+      }
+      if (customAmountModal) {
+        customAmountModal.style.display = 'none';
+      }
+    };
   });
 
   // Закрытие модальных окон при клике вне их области
-  window.addEventListener('click', function(event) {
+  window.onclick = function(event) {
     if (event.target === sbpModal) {
+      console.log('Closing SBP modal (outside click)');
       sbpModal.style.display = 'none';
     }
     if (event.target === customAmountModal) {
+      console.log('Closing custom amount modal (outside click)');
       customAmountModal.style.display = 'none';
     }
-  });
+  };
 }
 
 if ('serviceWorker' in navigator) {
