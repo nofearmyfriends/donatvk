@@ -226,20 +226,7 @@ function initializeButtons() {
       // Первая кнопка (99₽ - VK Donat)
       if (index === 0) {
         console.log('Opening VK Donat link');
-        if (window.vkBridge) {
-          // Для мобильной версии используем VK Bridge
-          vkBridge.send('VKWebAppOpenPayForm', {
-            amount: 9900, // 99 рублей в копейках
-            description: 'Донат на развитие канала'
-          }).then(response => {
-            console.log('VK Pay response:', response);
-          }).catch(error => {
-            console.error('VK Pay error:', error);
-          });
-        } else {
-          // Для десктопа открываем в новом окне
-          window.open('https://vk.com/donut/vkusnosttt?amount=99', '_blank');
-        }
+        window.open('https://vk.com/donut/vkusnosttt', '_blank');
         return;
       }
       
