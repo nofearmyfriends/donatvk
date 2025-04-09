@@ -137,30 +137,27 @@ function initializeApp() {
 
   // Обработчики для кнопок доната
   donateButtons.forEach((button, index) => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault(); // Предотвращаем стандартное поведение кнопки
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
       
-      // Первая кнопка (99₽ - VK Donat) открывает ссылку на группу ВК
+      // Первая кнопка (99₽ - VK Donat)
       if (index === 0) {
-        const url = `https://vk.com/donut/vkusnosttt?amount=99`;
-        window.open(url, '_blank');
+        window.location.href = 'https://vk.com/donut/vkusnosttt?amount=99';
         return;
       }
       
-      // Остальные кнопки открывают СБП
-      if (button.hasAttribute('data-amount')) {
-        const amount = button.getAttribute('data-amount');
-        if (amount === 'custom') {
-          customAmountModal.style.display = 'block';
-        } else {
-          openSbpModal(amount);
-        }
+      // Остальные кнопки
+      const amount = this.getAttribute('data-amount');
+      if (amount === 'custom') {
+        customAmountModal.style.display = 'block';
+      } else {
+        openSbpModal(amount);
       }
     });
   });
 
   // Обработчик для кнопки подтверждения суммы
-  confirmAmountButton.addEventListener('click', () => {
+  confirmAmountButton.addEventListener('click', function() {
     const amount = customAmountInput.value;
     if (amount && amount > 0) {
       openSbpModal(amount);
@@ -170,14 +167,14 @@ function initializeApp() {
 
   // Закрытие модальных окон
   closeButtons.forEach(button => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', function() {
       sbpModal.style.display = 'none';
       customAmountModal.style.display = 'none';
     });
   });
 
   // Закрытие модальных окон при клике вне их области
-  window.addEventListener('click', (event) => {
+  window.addEventListener('click', function(event) {
     if (event.target === sbpModal) {
       sbpModal.style.display = 'none';
     }
