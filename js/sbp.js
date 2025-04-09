@@ -40,6 +40,19 @@ function openSbpApp(amount) {
     }, 2500);
 }
 
+function openSberbankOnline(amount) {
+    const orderId = generateOrderId(); // Генерация ID заказа
+    const cardNumber = "2202XXXXXXXXXXXX"; // Ваша карта
+    
+    const sberPayLink = `https://online.sberbank.ru/CSAFront/transfer/toSomeoneElse.do?amount=${amount}&accountNumber=${cardNumber}&comment=${orderId}`;
+    
+    window.open(sberPayLink, '_blank'); // Открывает Сбербанк Онлайн в новом окне
+}
+
+function generateOrderId() {
+    return 'ORDER-' + Math.floor(Math.random() * 1000000); // Пример генерации ID заказа
+}
+
 // Инициализация после загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
     // Обработчик клика по логотипу СБП
@@ -48,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
         sbpLink.addEventListener('click', function(e) {
             e.preventDefault();
             const amount = document.getElementById('payment-amount').textContent;
-            openSbpApp(amount);
+            openSberbankOnline(amount);
             
             // Закрываем модальное окно
             const modal = document.getElementById('sbp-modal');
