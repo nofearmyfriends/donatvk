@@ -120,64 +120,15 @@ function initializeApp() {
     });
   }
 
-  // Обработчики для кнопок доната (перемещаем в начало для уверенности в инициализации)
-  const donateButtons = document.querySelectorAll('.donate-buttons .donate-button');
-  console.log('Found donate buttons:', donateButtons.length); // Отладочный лог
-
+  // Обновляем обработчики кнопок
+  const donateButtons = document.querySelectorAll('.donate-button');
   donateButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault(); // Предотвращаем стандартное поведение кнопки
-      const amount = button.getAttribute('data-amount');
-      console.log('Button clicked with amount:', amount); // Отладочный лог
-      
-      if (amount === 'custom') {
-        // Открываем модальное окно для ввода своей суммы
-        modal.style.display = 'flex';
-      } else {
-        // Открываем окно оплаты с выбранной суммой
-        const name = window.vkUserData ? window.vkUserData.first_name : 'Аноним';
-        const donationAmount = parseInt(amount);
-        console.log('Calling openVKPay with amount:', donationAmount); // Отладочный лог
-        openVKPay(donationAmount, name);
-      }
+    button.addEventListener('click', () => {
+      const amount = button.textContent.trim();
+      const url = `https://vk.com/donut/vkusnosttt?amount=${amount}`;
+      window.open(url, '_blank');
     });
   });
-
-  // Функция для открытия VK Pay
-  function openVKPay(amount, name) {
-    const amountInCoins = amount * 100; // Конвертируем рубли в копейки
-    console.log('Opening VK Pay with amount in coins:', amountInCoins);
-    
-    // Параметры для VK Pay
-    const payParams = {
-      app_id: 53377411,
-      action: 'pay-to-user',
-      params: {
-        amount: amountInCoins,
-        description: `Донат от ${name}`,
-        user_id: window.appOwnerId
-      }
-    };
-    
-    console.log('Pay params:', payParams);
-    
-    return vkBridge.send('VKWebAppOpenPayForm', payParams)
-      .then(data => {
-        console.log('Payment response:', data);
-        if (data.result) {
-          // Показываем окно успешного доната
-          successModal.style.display = 'flex';
-          // Обновляем список донатеров и прогресс
-          updateProgress(amount);
-          donaters = [{ name: name, amount: amount }, ...donaters];
-          renderDonaters(donaters);
-        }
-      })
-      .catch(error => {
-        console.error('Payment error:', error);
-        alert('Произошла ошибка при открытии формы оплаты. Пожалуйста, попробуйте позже.');
-      });
-  }
 
   // Обработчики событий
   cancelButton.addEventListener('click', () => {
