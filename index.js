@@ -309,8 +309,8 @@ function initializeButtons() {
         customAmountModal.style.display = 'block';
       }
     } else {
-      // Открываем СБП с указанной суммой
-      window.sbpPayment.openSbpApp(amount, 'Добровольное пожертвование');
+      const bank = document.getElementById('bank-select').value;
+      window.sbpPayment.openSbpApp(amount, 'Добровольное пожертвование', bank);
     }
   });
 
@@ -318,7 +318,8 @@ function initializeButtons() {
   document.getElementById('confirm-amount').addEventListener('click', function() {
     const amount = document.getElementById('custom-amount').value;
     if (amount && amount > 0) {
-      window.sbpPayment.openSbpApp(amount, 'Добровольное пожертвование');
+      const bank = document.getElementById('bank-select').value;
+      window.sbpPayment.openSbpApp(amount, 'Добровольное пожертвование', bank);
       document.getElementById('custom-amount-modal').style.display = 'none';
     }
   });

@@ -1,45 +1,44 @@
 // Функция для генерации параметров СБП
-function generateSbpParams(amount, purpose) {
-    const params = new URLSearchParams({
-        amount: amount,
-        purpose: purpose || 'Добровольное пожертвование',
-        account: '220220094349948',
-        name: 'Mikhail',
-        bank: 'Сбербанк'
-    });
-    return params.toString();
+function generateSbpParams(amount, purpose, bank) {
+    try {
+        const params = new URLSearchParams({
+            amount: amount,
+            purpose: purpose || 'Добровольное пожертвование',
+            account: '220220094349948',
+            name: 'Mikhail',
+            bank: bank || 'Сбербанк'
+        });
+        return params.toString();
+    } catch (error) {
+        console.error('Ошибка генерации параметров СБП:', error);
+        return null;
+    }
 }
 
 // Функция для открытия СБП в банковском приложении
-function openSbpApp(amount, purpose) {
-    const params = generateSbpParams(amount, purpose);
+function openSbpApp(amount, purpose, bank) {
+    const params = generateSbpParams(amount, purpose, bank);
+    
+    if (!params) {
+        alert('Ошибка при формировании платежа');
+        return;
+    }
+
     const sbpUrl = `sbp://payment?${params}`;
     
     // Пробуем открыть приложение банка
     window.location.href = sbpUrl;
-    
-    // Если приложение не открылось через 1 секунду, показываем QR-код
-    setTimeout(() => {
-        const modal = document.getElementById('sbp-modal');
-        if (modal) {
-            modal.style.display = 'block';
-            // Здесь можно добавить генерацию QR-кода
-        }
-    }, 1000);
-}
-
-// Функция для генерации QR-кода
-function generateQrCode(amount, purpose) {
-    const params = generateSbpParams(amount, purpose);
-    const qrUrl = `https://qr.nspk.ru/AS10001${params}`;
-    
-    // Здесь можно использовать любую библиотеку для генерации QR-кода
-    // Например, qrcode.js
-    return qrUrl;
 }
 
 // Экспортируем функции
 window.sbpPayment = {
-    openSbpApp,
-    generateQrCode
-}; 
+    openSbpApp
+};
+
+// Закрытие модального окна
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('sbp-modal');
+    if (modal && (e.target === modal || e.target.closest('.close'))) {
+        modal.style.display = 'none';
+    }
+}); 

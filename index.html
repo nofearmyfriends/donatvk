@@ -68,14 +68,15 @@
       <span class="close">&times;</span>
       <h2>Оплата через СБП</h2>
       <div class="sbp-container">
-        <div class="qr-code">
-          <!-- Здесь будет QR-код -->
-          <img src="qr-placeholder.png" alt="QR код для оплаты">
-        </div>
         <div class="payment-info">
           <p>Сумма: <span id="payment-amount">0</span>₽</p>
           <p>Получатель: <span id="recipient-name">Получатель</span></p>
           <p>Счет: <span id="account-number">XXXX XXXX XXXX XXXX</span></p>
+          <label for="bank-select">Выберите банк:</label>
+          <select id="bank-select">
+            <option value="Сбербанк">Сбербанк</option>
+            <!-- Добавьте другие банки, если нужно -->
+          </select>
         </div>
       </div>
     </div>
