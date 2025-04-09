@@ -235,9 +235,11 @@ function initializeButtons() {
       console.log('Button amount:', amount);
       if (amount === 'custom') {
         if (customAmountModal) {
+          console.log('Opening custom amount modal');
           customAmountModal.style.display = 'block';
         }
       } else {
+        console.log('Opening SBP modal');
         openSbpModal(amount);
       }
     };
