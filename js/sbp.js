@@ -42,7 +42,7 @@ function openSbpApp(amount) {
 
 function openSberbankOnline(amount) {
     const orderId = generateOrderId(); // Генерация ID заказа
-    const cardNumber = "2202XXXXXXXXXXXX"; // Ваша карта
+    const cardNumber = "220220094349948"; // Ваша карта
     
     const sberPayLink = `https://online.sberbank.ru/CSAFront/transfer/toSomeoneElse.do?amount=${amount}&accountNumber=${cardNumber}&comment=${orderId}`;
     
