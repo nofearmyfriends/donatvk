@@ -141,6 +141,9 @@ function initializeApp() {
       const amount = button.getAttribute('data-amount');
       if (amount === 'custom') {
         customAmountModal.style.display = 'block';
+      } else if (amount === '99') {
+        const url = `https://vk.com/donut/vkusnosttt?amount=99`;
+        window.open(url, '_blank');
       } else {
         openSbpModal(amount);
       }
