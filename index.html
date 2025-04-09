@@ -67,7 +67,7 @@
     <div class="modal-content">
       <span class="close">&times;</span>
       <h2>Оплата через СБП</h2>
-      <a href="#" onclick="openSberbank(); return false;">
+      <a href="#" id="sbp-link">
         <img src="images/sber_SBP.jpg" alt="СБП Сбербанк" class="sbp-logo">
       </a>
       <div class="sbp-container">
@@ -91,19 +91,5 @@
   <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
   <script src="js/sbp.js"></script>
   <script src="index.js"></script>
-  <script>
-    function openSberbank() {
-        // Пробуем открыть приложение
-        window.location.href = 'sberbankonline://payments';
-        
-        // Устанавливаем таймер
-        setTimeout(function() {
-            // Если приложение не открылось, перенаправляем в магазин приложений
-            window.location.href = 'https://apps.apple.com/ru/app/сбербанк-онлайн/id492224193'; // для iOS
-            // Для Android используйте:
-            // window.location.href = 'https://play.google.com/store/apps/details?id=ru.sberbankmobile';
-        }, 2500);
-    }
-  </script>
 </body>
 </html>
