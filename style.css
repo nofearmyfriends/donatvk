@@ -504,4 +504,5 @@ body {
 .sbp-logo {
     width: 100px;
     margin-bottom: 20px;
+    cursor: pointer;
 }
