@@ -53,20 +53,31 @@ function generateOrderId() {
     return 'ORDER-' + Math.floor(Math.random() * 1000000); // Пример генерации ID заказа
 }
 
+// Функция для инициализации виджета SberPay
+function initSberPayWidget(amount) {
+    const sbolWidget = new window.SbolPay({
+        selector: '#sbol-pay-container', // Селектор контейнера
+        token: 'YOUR_TOKEN', // Ваш токен (замените на реальный)
+        amount: (amount * 100).toString(), // Сумма в копейках
+        shopName: 'Поддержка проекта', // Название магазина
+        returnUrl: 'https://your-site.com/success', // URL для успешной оплаты
+        failUrl: 'https://your-site.com/fail' // URL для неудачной оплаты
+    });
+}
+
 // Инициализация после загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
-    // Обработчик клика по логотипу СБП
     const sbpLink = document.getElementById('sbp-link');
     if (sbpLink) {
         sbpLink.addEventListener('click', function(e) {
             e.preventDefault();
             const amount = document.getElementById('payment-amount').textContent;
-            openSberbankOnline(amount);
+            initSberPayWidget(amount); // Инициализируем виджет
             
             // Закрываем модальное окно
             const modal = document.getElementById('sbp-modal');
             if (modal) {
-                modal.style.display = 'none';
+                modal.style.display = 'block';
             }
         });
     }
