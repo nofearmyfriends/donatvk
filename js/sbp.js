@@ -56,12 +56,12 @@ function generateOrderId() {
 // Функция для инициализации виджета SberPay
 function initSberPayWidget(amount) {
     const sbolWidget = new window.SbolPay({
-        selector: '#sbol-pay-container', // Селектор контейнера
-        token: 'YOUR_TOKEN', // Ваш токен (замените на реальный)
-        amount: (amount * 100).toString(), // Сумма в копейках
-        shopName: 'Поддержка проекта', // Название магазина
-        returnUrl: 'https://your-site.com/success', // URL для успешной оплаты
-        failUrl: 'https://your-site.com/fail' // URL для неудачной оплаты
+        selector: '#sbol-pay-container',
+        token: 'YOUR_TOKEN',
+        amount: (amount * 100).toString(),
+        shopName: 'Поддержка проекта',
+        returnUrl: 'https://your-site.com/success',
+        failUrl: 'https://your-site.com/fail'
     });
 }
 
@@ -72,12 +72,20 @@ document.addEventListener('DOMContentLoaded', function() {
         sbpLink.addEventListener('click', function(e) {
             e.preventDefault();
             const amount = document.getElementById('payment-amount').textContent;
-            initSberPayWidget(amount); // Инициализируем виджет
             
-            // Закрываем модальное окно
-            const modal = document.getElementById('sbp-modal');
-            if (modal) {
-                modal.style.display = 'block';
+            // Определяем платформу
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // Для мобильных устройств открываем приложение
+                const params = generateSbpParams(amount);
+                if (params) {
+                    const sbpUrl = `sbp://payment?${params}`;
+                    window.location.href = sbpUrl;
+                }
+            } else {
+                // Для ПК показываем виджет
+                initSberPayWidget(amount);
             }
         });
     }
@@ -87,11 +95,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const modal = document.getElementById('sbp-modal');
         if (modal && (e.target === modal || e.target.closest('.close'))) {
             modal.style.display = 'none';
+            // Очищаем контейнер виджета при закрытии
+            const widgetContainer = document.getElementById('sbol-pay-container');
+            if (widgetContainer) {
+                widgetContainer.innerHTML = '';
+            }
         }
     });
 });
 
 // Экспортируем функции
 window.sbpPayment = {
-    openSbpApp
+    openSbpApp,
+    initSberPayWidget
 }; 

@@ -515,14 +515,8 @@ body {
     transform: scale(1.05);
 }
 
-/* Адаптив для мобильных */
-@media (max-width: 768px) {
-    .sbp-logo {
-        width: 150px;
-    }
-}
-
 #sbol-pay-container {
+    display: none; /* Скрываем виджет по умолчанию */
     width: 100%;
     max-width: 400px;
     margin: 20px auto;
@@ -532,8 +526,16 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Показываем виджет только на ПК */
+@media (min-width: 769px) {
+    #sbol-pay-container.active {
+        display: block;
+    }
+}
+
+/* Адаптив для мобильных */
 @media (max-width: 768px) {
-    #sbol-pay-container {
-        padding: 15px;
+    .sbp-logo {
+        width: 150px;
     }
 }
