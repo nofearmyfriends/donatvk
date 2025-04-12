@@ -82,7 +82,7 @@ function initSberPayWidget(amount) {
         const sbolWidget = new window.SbolPay({
             selector: '#sbol-pay-container',
             token: 'YOUR_REAL_TOKEN', // Замените на реальный токен
-            amount: (amount * 100).toString(),
+            amount: (amount * 100).toString(), // Сумма в копейках
             shopName: 'Поддержка проекта',
             returnUrl: window.location.href,
             failUrl: window.location.href
