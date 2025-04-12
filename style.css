@@ -516,7 +516,7 @@ body {
 }
 
 #sbol-pay-container {
-    display: block; /* Убедимся, что контейнер видим */
+    display: block;
     width: 100%;
     max-width: 400px;
     margin: 20px auto;
@@ -537,5 +537,8 @@ body {
 @media (max-width: 768px) {
     .sbp-logo {
         width: 150px;
+    }
+    #sbol-pay-container {
+        padding: 15px;
     }
 }
