@@ -318,8 +318,11 @@ function initializeButtons() {
   document.getElementById('confirm-amount').addEventListener('click', function() {
     const amount = document.getElementById('custom-amount').value;
     if (amount && amount > 0) {
-      const bank = document.getElementById('bank-select').value;
-      window.sbpPayment.openSbpApp(amount, 'Добровольное пожертвование', bank);
+      document.getElementById('payment-amount').textContent = amount;
+      const modal = document.getElementById('sbp-modal');
+      if (modal) {
+        modal.style.display = 'block';
+      }
       document.getElementById('custom-amount-modal').style.display = 'none';
     }
   });

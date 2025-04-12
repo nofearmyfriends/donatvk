@@ -55,14 +55,23 @@ function generateOrderId() {
 
 // Функция для инициализации виджета SberPay
 function initSberPayWidget(amount) {
-    const sbolWidget = new window.SbolPay({
-        selector: '#sbol-pay-container',
-        token: 'YOUR_TOKEN',
-        amount: (amount * 100).toString(),
-        shopName: 'Поддержка проекта',
-        returnUrl: 'https://your-site.com/success',
-        failUrl: 'https://your-site.com/fail'
-    });
+    if (!window.SbolPay) {
+        console.error('SbolPay widget not loaded');
+        return;
+    }
+    
+    try {
+        const sbolWidget = new window.SbolPay({
+            selector: '#sbol-pay-container',
+            token: 'YOUR_TOKEN', // Замените на реальный токен
+            amount: (amount * 100).toString(),
+            shopName: 'Поддержка проекта',
+            returnUrl: window.location.href,
+            failUrl: window.location.href
+        });
+    } catch (e) {
+        console.error('Error initializing SberPay widget:', e);
+    }
 }
 
 // Инициализация после загрузки DOM
