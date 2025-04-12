@@ -91,6 +91,15 @@
   
   <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
   <script src="https://securecardpayment.ru/payment/modules/sbol-pay/sbol-pay.js"></script>
+  <script>
+    window.addEventListener('load', function() {
+        if (!window.SbolPay) {
+            console.error('SbolPay widget script failed to load');
+        } else {
+            console.log('SbolPay widget script loaded successfully');
+        }
+    });
+  </script>
   <script src="js/sbp.js"></script>
   <script src="index.js"></script>
 </body>

@@ -516,7 +516,7 @@ body {
 }
 
 #sbol-pay-container {
-    display: none; /* Скрываем виджет по умолчанию */
+    display: block; /* Убедимся, что контейнер видим */
     width: 100%;
     max-width: 400px;
     margin: 20px auto;
