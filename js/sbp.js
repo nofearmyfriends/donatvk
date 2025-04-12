@@ -25,16 +25,28 @@ function openSbpApp(amount) {
     }
 
     const sbpUrl = `sbp://payment?${params}`;
-    window.location.href = sbpUrl;
-
-    setTimeout(function() {
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        if (isIOS) {
-            window.location.href = 'https://apps.apple.com/ru/app/сбербанк-онлайн/id492224193';
-        } else {
-            window.location.href = 'https://play.google.com/store/apps/details?id=ru.sberbankmobile';
-        }
-    }, 2500);
+    
+    // Пробуем открыть приложение
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+    
+    if (isIOS || isAndroid) {
+        window.location.href = sbpUrl;
+        
+        // Проверяем, открылось ли приложение
+        setTimeout(function() {
+            if (!document.hidden) {
+                // Если приложение не открылось, перенаправляем в магазин
+                if (isIOS) {
+                    window.location.href = 'https://apps.apple.com/ru/app/сбербанк-онлайн/id492224193';
+                } else {
+                    window.location.href = 'https://play.google.com/store/apps/details?id=ru.sberbankmobile';
+                }
+            }
+        }, 1000); // Проверка через 1 секунду
+    } else {
+        alert('Оплата через СБП доступна только на мобильных устройствах');
+    }
 }
 
 function openSberbankOnline(amount) {
@@ -93,11 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             
             if (isMobile) {
-                const params = generateSbpParams(amount);
-                if (params) {
-                    const sbpUrl = `sbp://payment?${params}`;
-                    window.location.href = sbpUrl;
-                }
+                openSbpApp(amount);
             } else {
                 initSberPayWidget(amount);
             }
